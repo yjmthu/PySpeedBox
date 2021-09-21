@@ -24,7 +24,6 @@ class  SpeedWidget(QWidget):
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
         if event.buttons() == Qt.LeftButton:
-            print(event.pos())
             self.setMouseTracking(True)
             self._startPos = event.pos()
         return super().mousePressEvent(event)
