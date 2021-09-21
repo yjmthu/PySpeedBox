@@ -5,7 +5,7 @@ class GMPOperateTip(QWidget):
     centerPos = QPoint()
     
     def __init__(self, parent: QWidget) -> None:
-        super().__init__(parent = parent)
+        super().__init__(parent)
         self.tip = QLabel(self)
         self.centerPos = self.parent().rect().center() 
 

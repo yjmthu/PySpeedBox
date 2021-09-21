@@ -76,10 +76,9 @@ class Form(QWidget):
         self.setMinimumSize(FORM_WIDTH, FORM_HEIGHT)
         self.setMaximumSize(FORM_WIDTH, FORM_HEIGHT)
         self.ui.LabMemory.setMaximumWidth(30)
-
-        self.animation = QPropertyAnimation(self, b"geometry", self)
     
     def initChildren(self):
+        self.animation = QPropertyAnimation(self, b"geometry", self)
         self.dialog = Dialog(self.VarBox)
         self.menu = Menu(self.VarBox)
         self.timer = QTimer(self)

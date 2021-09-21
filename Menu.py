@@ -73,8 +73,12 @@ class Menu(QMenu):
 
     def initConnects(self):
         self.connect(self.quitAct, SIGNAL('triggered()'), lambda: QApplication.instance().quit())
-        self.connect(self.settingDialogAct, SIGNAL('triggered()'), lambda: self.VarBox.form.dialog.show())
+        self.connect(self.settingDialogAct, SIGNAL('triggered()'), self.temp)#lambda: self.VarBox.form.dialog.show())
         #self.quitAct.triggered.connect(lambda: QApplication.instance().quit())
+    
+    def temp(self):
+        self.VarBox.form.dialog.show()
+        print(self.VarBox.form.dialog.width(), self.VarBox.form.dialog.height())
 
     def Show(self, pos:QPoint):
         px, py = 0, 0

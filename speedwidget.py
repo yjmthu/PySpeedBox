@@ -1,32 +1,30 @@
-from PySide6.QtWidgets import QDialog, QFrame, QGraphicsDropShadowEffect
+from PySide6.QtWidgets import QDialog, QFrame, QGraphicsDropShadowEffect, QWidget
 from PySide6.QtCore import QPoint, Qt
 from PySide6.QtGui import QMouseEvent
 
 from gmpoperatetip import GMPOperateTip
 from blankform import BlankFrom
 
-class  SpeedWidget(QDialog):
+class  SpeedWidget(QWidget):
     _startPos = QPoint()
     _endPos = QPoint()
 
     def __init__(self) -> None:
         super().__init__()
         self.setAttribute(Qt.WA_TranslucentBackground)
-    
-    def initSpeedBox(self, frame: QFrame, left, right):
+
+    def initSpeedBox(self, frame: QFrame, left, right) -> None:
         self.effect = QGraphicsDropShadowEffect(self)
         self.effect.setOffset(0, 0)
         self.effect.setBlurRadius(15)
         self.effect.setColor(Qt.black)
         frame.setGraphicsEffect(self.effect)
         self.jobTip = GMPOperateTip(self)
-        self.blank = BlankFrom(self)
-        self.blank.closeButton.clicked.connect(right)
-        self.blank.minButton.clicked.connect(left)
-        self.blank.move(self.width()-100, 0)
+        self.blank = BlankFrom(self, left, right)
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
         if event.buttons() == Qt.LeftButton:
+            print(event.pos())
             self.setMouseTracking(True)
             self._startPos = event.pos()
         return super().mousePressEvent(event)
