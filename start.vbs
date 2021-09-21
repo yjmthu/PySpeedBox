@@ -1,0 +1,1 @@
+CreateObject("Wscript.Shell").run "pythonw.exe main.py"
