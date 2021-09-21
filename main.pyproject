@@ -1,3 +1,3 @@
 {
-    "files": ["bingsetting.ui","funcbox.py","blankform.py","menu.py","form.ui","main.py","form.py","gmpoperatetip.py","dialog.py","speedwidget.py","translater.ui","formsetting.ui","dialog.ui"]
+    "files": ["bingsetting.ui","funcbox.py","blankform.py","menu.py","form.ui","main.py","form.py","gmpoperatetip.py","dialog.py","speedwidget.py","translater.ui","formsetting.ui","dialog.ui","res.qrc"]
 }
