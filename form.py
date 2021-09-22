@@ -78,8 +78,6 @@ class Form(QWidget):
     
     def initChildren(self):
         self.animation = QPropertyAnimation(self, b"geometry", self)
-        self.dialog = Dialog(self.box)
-        self.menu = Menu(self.box)
         self.timer = QTimer(self)
     
     def initConnects(self):
@@ -94,20 +92,17 @@ class Form(QWidget):
     
     def nativeEvent(self, eventType, message: int):
         msg = wintypes.MSG.from_address(message.__int__())
-        if msg.message == MSG_APPBAR_MSGID:
-            print("收到第一层消息")
-            if msg.wParam == ABN_FULLSCREENAPP:
-                print(456)
-                if (msg.lParam == wintypes.BOOL(True)):
+        if msg.message == MSG_APPBAR_MSGID and msg.wParam == ABN_FULLSCREENAPP:
+                if (msg.lParam):
                     self.hide()
                 else:
                     self.show()
-                return True
+                return True, 0
         return super().nativeEvent(eventType, message)
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
         if event.button() == Qt.RightButton:
-            self.menu.Show(event.globalPosition())
+            self.box.menu.Show(event.globalPosition())
         elif event.button() == Qt.LeftButton:
             self.setMouseTracking(True)
             self._startPos = event.pos()

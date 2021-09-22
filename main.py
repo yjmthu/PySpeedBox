@@ -15,10 +15,7 @@ if __name__ == "__main__":
         exit(1)
     app = QApplication([])
     app.setQuitOnLastWindowClosed(False)
-    screen = QGuiApplication.primaryScreen()
-    geo = screen.geometry()
-    box = VarBox(geo.width(), geo.height())
-    box.creatForm()
+    VarBox().creatWidgets()
     exit_number = app.exec()
     if exit_number == RETCODE_RESTART:
         sys.argv.insert(0, __file__)

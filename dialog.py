@@ -5,10 +5,9 @@ from PySide6.QtWidgets import QButtonGroup, QHBoxLayout, QLayout
 from PySide6.QtCore import QFile, QSize, Qt
 from PySide6.QtUiTools import QUiLoader
 
+from funcbox import *
 from speedwidget import SpeedWidget
 
-DIALOG_WIDTH = 460
-DIALOG_HEIGHT = 310
 
 class Dialog(SpeedWidget):
 

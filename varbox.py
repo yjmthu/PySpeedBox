@@ -1,28 +1,39 @@
-from ctypes import wintypes, pointer, windll, sizeof
+from ctypes import wintypes, pointer, windll, cdll, sizeof
 import os
 
-from PySide6.QtGui import QColor
+from PySide6.QtGui import QColor, QGuiApplication
 from PySide6.QtCore import QDir, QPoint, QStandardPaths, QSettings
 
-from form import Form
 from funcbox import *
+from form import Form
+from dialog import Dialog
+from menu import Menu
 
 class VarBox:
 
     TYPE_MS_BING, TYPE_PY_SCRIPT, TYPE_PC_NATIVE = range(3)
 
-    def __init__(self, w, h) -> None:
-        self.ScreenWidth = w
-        self.ScreenHeight = h
+    def __init__(self) -> None:
+        screen = QGuiApplication.primaryScreen()
+        geo = screen.geometry()
+        self.ScreenWidth = geo.width()
+        self.ScreenHeight = geo.height()
         self.AppId = str()
         self.PassWord = str()
         self.initSpeedBox()
     
-    def creatForm(self):
+    def creatWidgets(self):
         self.form = Form(self)
+        self.abd = APPBARDATA()
+        cdll.msvcrt.memset(pointer(self.abd), 0, sizeof(self.abd))
+        self.abd.cbSize = sizeof(APPBARDATA)
+        self.abd.hWnd = self.form.winId()
+        self.abd.uCallbackMessage = MSG_APPBAR_MSGID
+        windll.shell32.SHAppBarMessage(ABM_NEW, pointer(self.abd))
         self.form.show()
-        self.__abd = APPBARDATA(sizeof(APPBARDATA), self.form.winId(), MSG_APPBAR_MSGID, 0, wintypes.RECT(0,0,0,0), 0)
-        windll.shell32.SHAppBarMessage(ABM_NEW, pointer(self.__abd))
+
+        self.dialog = Dialog(self)
+        self.menu = Menu(self)
     
     def initSpeedBox(self):
         main_folder = get_data_path()

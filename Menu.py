@@ -4,8 +4,7 @@ from PySide6.QtWidgets import QMenu, QApplication
 from PySide6.QtCore import SIGNAL, QPoint, Qt
 from PySide6.QtGui import QFont, QFontDatabase, QAction
 
-MENU_WIDTH = 92
-MENU_HEIGHT = 270
+from funcbox import *
 
 class Menu(QMenu):
     def __init__(self, box):
@@ -73,7 +72,7 @@ class Menu(QMenu):
 
     def initConnects(self):
         self.connect(self.quitAct, SIGNAL('triggered()'), lambda: QApplication.instance().quit())
-        self.connect(self.settingDialogAct, SIGNAL('triggered()'), lambda: self.box.form.dialog.show())
+        self.connect(self.settingDialogAct, SIGNAL('triggered()'), lambda: self.box.dialog.show())
         #self.quitAct.triggered.connect(lambda: QApplication.instance().quit())
 
     def Show(self, pos:QPoint):
