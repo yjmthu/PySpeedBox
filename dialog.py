@@ -12,9 +12,9 @@ DIALOG_HEIGHT = 310
 
 class Dialog(SpeedWidget):
 
-    def __init__(self, VarBox)->None:
+    def __init__(self, box)->None:
         super().__init__()
-        self.VarBox = VarBox
+        self.box = box
         self.initUi()
         self.initChildren()
         self.initOthers()
@@ -36,8 +36,8 @@ class Dialog(SpeedWidget):
 
         self.setMinimumSize(QSize(DIALOG_WIDTH, DIALOG_HEIGHT))
         self.setMaximumSize(QSize(DIALOG_WIDTH, DIALOG_HEIGHT))
-        #self.ui.lineAppData.setText(self.VarBox.get_dat_path())
-        self.move((self.VarBox.ScreenWidth - self.width()) / 2, (self.VarBox.ScreenHeight - self.height()) / 2)
+        #self.ui.lineAppData.setText(self.box.get_dat_path())
+        self.move((self.box.ScreenWidth - self.width()) / 2, (self.box.ScreenHeight - self.height()) / 2)
         self.ui.setStyleSheet("QFrame{background-color:rgba(0, 0, 0, 100);}QLabel{border-radius: 3px;background-color: transparent;}Line{background-color:black};")
         self.initSpeedBox(self.ui, self.showMinimized, self.close)
 
@@ -49,13 +49,14 @@ class Dialog(SpeedWidget):
         self.buttonGroup = QButtonGroup()
     
     def initOthers(self):
-        self.buttonGroup.addButton(self.ui.rBtnNew, self.VarBox.PAPER_TYPE.Latest)
-        self.buttonGroup.addButton(self.ui.rBtnHot, self.VarBox.PAPER_TYPE.Hot)
-        self.buttonGroup.addButton(self.ui.rBtnNature, self.VarBox.PAPER_TYPE.Nature)
-        self.buttonGroup.addButton(self.ui.rBtnAnime, self.VarBox.PAPER_TYPE.Anime)
-        self.buttonGroup.addButton(self.ui.rBtnSimple, self.VarBox.PAPER_TYPE.Simple)
-        self.buttonGroup.addButton(self.ui.rBtnRandom, self.VarBox.PAPER_TYPE.Random)
-        self.buttonGroup.addButton(self.ui.rBtnBing, self.VarBox.PAPER_TYPE.Bing)
-        self.buttonGroup.addButton(self.ui.rBtnNative, self.VarBox.PAPER_TYPE.Native)
-        self.buttonGroup.addButton(self.ui.rBtnAdvance, self.VarBox.PAPER_TYPE.Advance)
-        self.buttonGroup.setExclusive(True)
+        pass
+        # self.buttonGroup.addButton(self.ui.rBtnNew, self.box.PAPER_TYPE.Latest)
+        # self.buttonGroup.addButton(self.ui.rBtnHot, self.box.PAPER_TYPE.Hot)
+        # self.buttonGroup.addButton(self.ui.rBtnNature, self.box.PAPER_TYPE.Nature)
+        # self.buttonGroup.addButton(self.ui.rBtnAnime, self.box.PAPER_TYPE.Anime)
+        # self.buttonGroup.addButton(self.ui.rBtnSimple, self.box.PAPER_TYPE.Simple)
+        # self.buttonGroup.addButton(self.ui.rBtnRandom, self.box.PAPER_TYPE.Random)
+        # self.buttonGroup.addButton(self.ui.rBtnBing, self.box.PAPER_TYPE.Bing)
+        # self.buttonGroup.addButton(self.ui.rBtnNative, self.box.PAPER_TYPE.Native)
+        # self.buttonGroup.addButton(self.ui.rBtnAdvance, self.box.PAPER_TYPE.Advance)
+        # self.buttonGroup.setExclusive(True)

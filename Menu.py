@@ -8,9 +8,9 @@ MENU_WIDTH = 92
 MENU_HEIGHT = 270
 
 class Menu(QMenu):
-    def __init__(self, VarBox):
+    def __init__(self, box):
         super(Menu, self).__init__()
-        self.VarBox = VarBox
+        self.box = box
         self.initActions()
         self.initUi()
         self.initConnects()
@@ -73,16 +73,16 @@ class Menu(QMenu):
 
     def initConnects(self):
         self.connect(self.quitAct, SIGNAL('triggered()'), lambda: QApplication.instance().quit())
-        self.connect(self.settingDialogAct, SIGNAL('triggered()'), lambda: self.VarBox.form.dialog.show())
+        self.connect(self.settingDialogAct, SIGNAL('triggered()'), lambda: self.box.form.dialog.show())
         #self.quitAct.triggered.connect(lambda: QApplication.instance().quit())
 
     def Show(self, pos:QPoint):
         px, py = 0, 0
-        if (pos.x() + MENU_WIDTH < self.VarBox.ScreenWidth):
+        if (pos.x() + MENU_WIDTH < self.box.ScreenWidth):
             px = pos.x()
         else:
-            px = self.VarBox.ScreenWidth - MENU_WIDTH
-        if (pos.y() + MENU_HEIGHT < self.VarBox.ScreenHeight):
+            px = self.box.ScreenWidth - MENU_WIDTH
+        if (pos.y() + MENU_HEIGHT < self.box.ScreenHeight):
             py = pos.y()
         else:
             py = pos.y() - MENU_HEIGHT

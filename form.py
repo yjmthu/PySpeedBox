@@ -4,12 +4,13 @@ from pathlib import Path
 
 from psutil import net_io_counters, virtual_memory
 
-from menu import Menu
-
 from PySide6.QtWidgets import QApplication, QWidget
-from PySide6.QtCore import QFile, Qt, QPoint, QRect, QTimer, QPropertyAnimation, QEvent
+from PySide6.QtCore import QFile, QSettings, Qt, QPoint, QRect, QTimer, QPropertyAnimation, QEvent
 from PySide6.QtGui import QFont, QMouseEvent, QFontDatabase, QEnterEvent
 from PySide6.QtUiTools import QUiLoader
+
+from menu import Menu
+from funcbox import get_ini_path
 
 FORM_WIDTH = 92
 FORM_HEIGHT = 40
@@ -33,9 +34,9 @@ class Form(QWidget):
     _endPos = QPoint()
     moved = False
     old_bytes = [0, 0]
-    def __init__(self, VarBox):
+    def __init__(self, box):
         super(Form, self).__init__()
-        self.VarBox = VarBox
+        self.box = box
         self.initUi()
         self.initChildren()
         self.initConnects()
@@ -76,15 +77,19 @@ class Form(QWidget):
         self.setMinimumSize(FORM_WIDTH, FORM_HEIGHT)
         self.setMaximumSize(FORM_WIDTH, FORM_HEIGHT)
         self.ui.LabMemory.setMaximumWidth(30)
+
+        self.move(self.box.formUiPos)
+        self.startAnimation()
     
     def initChildren(self):
         self.animation = QPropertyAnimation(self, b"geometry", self)
-        self.dialog = Dialog(self.VarBox)
-        self.menu = Menu(self.VarBox)
+        self.dialog = Dialog(self.box)
+        self.menu = Menu(self.box)
         self.timer = QTimer(self)
     
     def initConnects(self):
         self.timer.timeout.connect(self.start)
+        self.animation.finished.connect(self.savePos)
 
     def initOthers(self):
         net_info = net_io_counters()  # 获取流量统计信息
@@ -93,12 +98,12 @@ class Form(QWidget):
         self.timer.start(1000)
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
-        if event.buttons() == Qt.RightButton:
+        if event.button() == Qt.RightButton:
             self.menu.Show(event.globalPosition())
-        elif event.buttons() == Qt.LeftButton:
+        elif event.button() == Qt.LeftButton:
             self.setMouseTracking(True)
             self._startPos = event.pos()
-        elif event.buttons() == Qt.MiddleButton:
+        elif event.button() == Qt.MiddleButton:
             QApplication.instance().exit(RETCODE_RESTART)
         return super().mousePressEvent(event)
     
@@ -109,8 +114,9 @@ class Form(QWidget):
         return super().mouseMoveEvent(event)
     
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:
-        if event.buttons() == Qt.LeftButton:
+        if event.button() == Qt.LeftButton:
             self.setMouseTracking(False)
+            self.savePos()
         return super().mouseReleaseEvent(event)
     
     def mouseDoubleClickEvent(self, event: QMouseEvent) -> None: 
@@ -120,8 +126,8 @@ class Form(QWidget):
     def enterEvent(self, event: QEnterEvent) -> None:
         pos = self.frameGeometry().topLeft()
         if self.moved:
-            if pos.x() + FORM_WIDTH >= self.VarBox.ScreenWidth:
-                self.startAnimation(self.VarBox.ScreenWidth - FORM_WIDTH + 2, pos.y())
+            if pos.x() + FORM_WIDTH >= self.box.ScreenWidth:
+                self.startAnimation(self.box.ScreenWidth - FORM_WIDTH + 2, pos.y())
                 self.moved = False
             elif pos.x() <= 0:
                 self.startAnimation(0, pos.y())
@@ -133,8 +139,8 @@ class Form(QWidget):
 
     def leaveEvent(self, event: QEvent) -> None:
         pos = self.frameGeometry().topLeft()
-        if pos.x() + FORM_WIDTH >= self.VarBox.ScreenWidth:
-            self.startAnimation(self.VarBox.ScreenWidth - 2, pos.y())
+        if pos.x() + FORM_WIDTH >= self.box.ScreenWidth:
+            self.startAnimation(self.box.ScreenWidth - 2, pos.y())
             self.moved = True
         elif pos.x() <= 2:
             self.startAnimation(2 - FORM_WIDTH, pos.y())
@@ -151,3 +157,11 @@ class Form(QWidget):
         self.animation.setEndValue(newpos)
         self.animation.setDuration(FORM_WIDTH)
         self.animation.start()
+    
+    def savePos(self):
+        self.box.formUiPos = self.pos()
+        IniWrite = QSettings(get_ini_path(), QSettings.IniFormat)
+        IniWrite.beginGroup("Form")
+        IniWrite.setValue("formUiPosX", self.box.formUiPos.x())
+        IniWrite.setValue("formUiPosY", self.box.formUiPos.y())
+        IniWrite.endGroup()
