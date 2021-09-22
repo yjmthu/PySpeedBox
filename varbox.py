@@ -1,12 +1,13 @@
+from ctypes import wintypes, pointer, windll, sizeof
+import os
+
 from PySide6.QtGui import QColor
 from PySide6.QtCore import QDir, QPoint, QStandardPaths, QSettings
-from form import Form
 
+from form import Form
 from funcbox import *
 
 class VarBox:
-    ScreenWidth = 2560
-    ScreenHeight = 1600
 
     TYPE_MS_BING, TYPE_PY_SCRIPT, TYPE_PC_NATIVE = range(3)
 
@@ -20,6 +21,8 @@ class VarBox:
     def creatForm(self):
         self.form = Form(self)
         self.form.show()
+        self.__abd = APPBARDATA(sizeof(APPBARDATA), self.form.winId(), MSG_APPBAR_MSGID, 0, wintypes.RECT(0,0,0,0), 0)
+        windll.shell32.SHAppBarMessage(ABM_NEW, pointer(self.__abd))
     
     def initSpeedBox(self):
         main_folder = get_data_path()
@@ -34,7 +37,6 @@ class VarBox:
             self.paperCur = 0
             self.paperAutoChange: bool = IniRead.value("paperAutoChange", False, bool)
             self.paperTimeInterval: int = IniRead.value("paperTimeInterval", 15, int)
-            # IniRead.value("", , )
             self.paperType = IniRead.value("paperType", VarBox.TYPE_MS_BING, int)
             self.paperNativeDir: str = QDir.toNativeSeparators(QStandardPaths.writableLocation(QStandardPaths.PicturesLocation))
             self.paperNativeDir: str = IniRead.value("paperNativeDir", self.paperNativeDir, str)

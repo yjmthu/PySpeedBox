@@ -1,22 +1,17 @@
-from dialog import Dialog
 import os
 from pathlib import Path
+from ctypes import sizeof, wintypes
 
 from psutil import net_io_counters, virtual_memory
 
 from PySide6.QtWidgets import QApplication, QWidget
-from PySide6.QtCore import QFile, QSettings, Qt, QPoint, QRect, QTimer, QPropertyAnimation, QEvent
+from PySide6.QtCore import QFile, QSettings, Qt, QPoint, QRect, QTimer, QPropertyAnimation, QEvent, QByteArray
 from PySide6.QtGui import QFont, QMouseEvent, QFontDatabase, QEnterEvent
 from PySide6.QtUiTools import QUiLoader
 
+from dialog import Dialog
 from menu import Menu
-from funcbox import get_ini_path
-
-FORM_WIDTH = 92
-FORM_HEIGHT = 40
-RETCODE_ERROR_EXIT = 1071
-RETCODE_UPDATE = 1072
-RETCODE_RESTART = 1073
+from funcbox import *
 
 def gsh(count):
     if count < 1024:
@@ -32,8 +27,9 @@ def gsh(count):
 class Form(QWidget):
     _startPos = QPoint()
     _endPos = QPoint()
-    moved = False
-    old_bytes = [0, 0]
+    _moved = False
+    _old_bytes = [0, 0]
+
     def __init__(self, box):
         super(Form, self).__init__()
         self.box = box
@@ -46,9 +42,9 @@ class Form(QWidget):
         net_info = net_io_counters()  # 获取流量统计信息
         recv_bytes = net_info.bytes_recv
         sent_bytes = net_info.bytes_sent
-        self.ui.Labup.setText("↑  %sB" % gsh(sent_bytes-self.old_bytes[1]))
-        self.ui.Labdown.setText("↓  %sB" % gsh(recv_bytes-self.old_bytes[0]))
-        self.old_bytes = [recv_bytes, sent_bytes]
+        self.ui.Labup.setText("↑  %sB" % gsh(sent_bytes-self._old_bytes[1]))
+        self.ui.Labdown.setText("↓  %sB" % gsh(recv_bytes-self._old_bytes[0]))
+        self._old_bytes = [recv_bytes, sent_bytes]
         self.ui.LabMemory.setText(str(int(round(virtual_memory().percent))))
 
 
@@ -79,7 +75,6 @@ class Form(QWidget):
         self.ui.LabMemory.setMaximumWidth(30)
 
         self.move(self.box.formUiPos)
-        self.startAnimation()
     
     def initChildren(self):
         self.animation = QPropertyAnimation(self, b"geometry", self)
@@ -93,9 +88,22 @@ class Form(QWidget):
 
     def initOthers(self):
         net_info = net_io_counters()  # 获取流量统计信息
-        self.old_bytes[0] = net_info.bytes_recv
-        self.old_bytes[1] = net_info.bytes_sent
+        self._old_bytes[0] = net_info.bytes_recv
+        self._old_bytes[1] = net_info.bytes_sent
         self.timer.start(1000)
+    
+    def nativeEvent(self, eventType, message: int):
+        msg = wintypes.MSG.from_address(message.__int__())
+        if msg.message == MSG_APPBAR_MSGID:
+            print("收到第一层消息")
+            if msg.wParam == ABN_FULLSCREENAPP:
+                print(456)
+                if (msg.lParam == wintypes.BOOL(True)):
+                    self.hide()
+                else:
+                    self.show()
+                return True
+        return super().nativeEvent(eventType, message)
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
         if event.button() == Qt.RightButton:
@@ -125,29 +133,29 @@ class Form(QWidget):
 
     def enterEvent(self, event: QEnterEvent) -> None:
         pos = self.frameGeometry().topLeft()
-        if self.moved:
+        if self._moved:
             if pos.x() + FORM_WIDTH >= self.box.ScreenWidth:
                 self.startAnimation(self.box.ScreenWidth - FORM_WIDTH + 2, pos.y())
-                self.moved = False
+                self._moved = False
             elif pos.x() <= 0:
                 self.startAnimation(0, pos.y())
-                self.moved = False
+                self._moved = False
             elif pos.y() <= 0:
                 self.startAnimation(pos.x(), 0)
-                self.moved = False
+                self._moved = False
         return super().enterEvent(event)
 
     def leaveEvent(self, event: QEvent) -> None:
         pos = self.frameGeometry().topLeft()
         if pos.x() + FORM_WIDTH >= self.box.ScreenWidth:
             self.startAnimation(self.box.ScreenWidth - 2, pos.y())
-            self.moved = True
+            self._moved = True
         elif pos.x() <= 2:
             self.startAnimation(2 - FORM_WIDTH, pos.y())
-            self.moved = True
+            self._moved = True
         elif pos.y() <= 2:
             self.startAnimation(pos.x(), 2 - FORM_HEIGHT)
-            self.moved = True
+            self._moved = True
         return super().leaveEvent(event)
 
     def startAnimation(self, width: int, height:int):
