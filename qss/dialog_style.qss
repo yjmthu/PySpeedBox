@@ -166,7 +166,7 @@ QComboBox {
 }
 
 QComboBox::down-arrow{
-    image:url(:/icons/blue_purple_arrow.png);
+    image:url(./icons/blue_purple_arrow.png);
     width:10px;
     height:10px;
     right:2px;

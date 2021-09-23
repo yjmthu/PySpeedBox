@@ -1,18 +1,41 @@
 # This Python file uses the following encoding: utf-8
+import sys, subprocess
+from ctypes import byref
 
 from PySide6.QtWidgets import QMenu, QApplication
-from PySide6.QtCore import SIGNAL, QPoint, Qt
+from PySide6.QtCore import SIGNAL, QPoint, QTimer, Qt
 from PySide6.QtGui import QFont, QFontDatabase, QAction
 
 from funcbox import *
 
 class Menu(QMenu):
+
     def __init__(self, box):
         super(Menu, self).__init__()
         self.box = box
+        self.initChildren()
         self.initActions()
         self.initUi()
         self.initConnects()
+    
+    def initChildren(self):
+        self.timer = QTimer()
+        self.subruncmd = lambda cmd: subprocess.run(cmd, shell=True, stdin=-1, stdout=-1, stderr=-1)
+    
+    def do_stop_sleep(self, checked):
+        if checked:
+            self.timer.start(40000)
+        else:
+            self.timer.stop()
+
+    def get_mouse_moved(self):
+        W_MAX = windll.user32.GetSystemMetrics(SM_CXSCREEN)
+        pt = wintypes.POINT()
+        windll.user32.GetCursorPos(wintypes.byref(pt))
+        X = -1 if pt.x == W_MAX else 1
+        windll.user32.mouse_event(MOUSEEVENTF_MOVE, X, 0, 0, None)
+        time.sleep(0.001)
+        windll.user32.mouse_event(MOUSEEVENTF_MOVE, -X, 0, 0, None)
 
     def initUi(self):
         self.setWindowFlag(Qt.FramelessWindowHint)
@@ -49,9 +72,9 @@ class Menu(QMenu):
         self.nextPaperAct.setText("下一张图")
         self.addAction(self.nextPaperAct)
 
-        self.removePicAct = QAction()
-        self.removePicAct.setText("不看此图")
-        self.addAction(self.removePicAct)
+        self.remoPicAct = QAction()
+        self.remoPicAct.setText("不看此图")
+        self.addAction(self.remoPicAct)
 
         self.openFolderAct = QAction()
         self.openFolderAct.setText("打开目录")
@@ -69,12 +92,17 @@ class Menu(QMenu):
         self.noSleepAct.setText("防止息屏")
         self.noSleepAct.setCheckable(True)
         self.addAction(self.noSleepAct)
-
+    
     def initConnects(self):
+        self.timer.timeout.connect(self.get_mouse_moved)
         self.connect(self.quitAct, SIGNAL('triggered()'), QApplication.quit)
         self.connect(self.settingDialogAct, SIGNAL('triggered()'), self.box.dialog.show)
         self.connect(self.nextPaperAct, SIGNAL('triggered()'), self.box.wallpaper.start_next)
         self.connect(self.prevPaperAct, SIGNAL('triggered()'), self.box.wallpaper.start_prev)
+        self.connect(self.remoPicAct, SIGNAL('triggered()'), self.box.wallpaper.start_remo)
+        self.connect(self.openFolderAct, SIGNAL('triggered()'), lambda: self.subruncmd('start explorer {}'.format(get_dir_path())))
+        self.connect(self.noSleepAct, SIGNAL('triggered(bool)'), self.do_stop_sleep)
+        self.connect(self.shutdownAct,  SIGNAL('triggered()'), lambda: self.subruncmd('shutdown -s -t 0 -f'))
         #self.quitAct.triggered.connect(lambda: QApplication.instance().quit())
 
     def Show(self, pos:QPoint):

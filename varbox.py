@@ -13,7 +13,7 @@ from wallpaper import Wallpaper
 
 class VarBox:
 
-    TYPE_MS_BING, TYPE_PY_SCRIPT, TYPE_PC_NATIVE = range(3)
+    TYPE_IN_DEFAULT, TYPE_IN_CODE, TYPE_MS_BING, TYPE_PC_NATIVE, TYPE_PY_CMD = range(5)
 
     def __init__(self) -> None:
         screen = QGuiApplication.primaryScreen().geometry()
@@ -21,19 +21,10 @@ class VarBox:
         self.initSpeedBox()
         self.initChildren()
         self.initConnections()
-    
-    def creatWidgets(self):
-        self.form = Form(self)
-        self.abd = APPBARDATA()
-        cdll.msvcrt.memset(pointer(self.abd), 0, sizeof(self.abd))
-        self.abd.cbSize = sizeof(APPBARDATA)
-        self.abd.hWnd = self.form.winId()
-        self.abd.uCallbackMessage = MSG_APPBAR_MSGID
-        windll.shell32.SHAppBarMessage(ABM_NEW, pointer(self.abd))
-        self.form.show()
+        self.initBehaviors()
     
     def initSpeedBox(self):
-        main_folder = get_data_path()
+        main_folder = get_dat_path()
         ini_file = os.path.join(main_folder, "PySpeedBox.ini")
         if os.path.exists(ini_file):
             IniRead = QSettings(ini_file, QSettings.IniFormat)
@@ -43,6 +34,7 @@ class VarBox:
             IniRead.beginGroup("Wallpaper")
             self.paperHistory = list()
             self.paperCur = 0
+            self.paperChangeWhenStart: bool = IniRead.value("paperChangeWhenStart", False, bool)
             self.paperAutoChange: bool = IniRead.value("paperAutoChange", False, bool)
             self.paperTimeInterval: int = IniRead.value("paperTimeInterval", 15, int)
             self.paperType = IniRead.value("paperType", VarBox.TYPE_MS_BING, int)
@@ -82,6 +74,7 @@ class VarBox:
 
             self.paperHistory = list()
             self.paperCur = 0
+            self.paperChangeWhenStart = False
             self.paperAutoChange = False
             self.paperTimeInterval = 15
             self.paperType = VarBox.TYPE_MS_BING
@@ -106,6 +99,7 @@ class VarBox:
             IniWrite = QSettings(ini_file, QSettings.IniFormat)
             IniWrite.beginGroup("Wallpaper")
             IniWrite.setValue("paperType", self.paperType)
+            IniWrite.setValue("paperChangeWhenStart", self.paperChangeWhenStart)
             IniWrite.setValue("paperTimeInterval", self.paperTimeInterval)
             IniWrite.setValue("paperAutoChange", self.paperAutoChange)
             IniWrite.setValue("paperNativeDir", self.paperNativeDir)
@@ -141,16 +135,28 @@ class VarBox:
             IniWrite.endGroup()
         
         self.paperNativeDir = r"C:\Users\yjmthu\OneDrive\Language\Python\Projects\Netbian\image\4K风景"
+        self.paperType = self.TYPE_PC_NATIVE
 
     def initChildren(self):
         self.timer = QTimer()
         self.wallpaper = Wallpaper(self)
-        self.timer.timeout.connect(self.wallpaper.start_next)
-        self.timer.start(self.paperTimeInterval * 60000)
         self.wallpaper.start_next()
 
         self.dialog = Dialog(self)
         self.menu = Menu(self)
+        self.form = Form(self)
+        self.abd = APPBARDATA()
 
     def initConnections(self):
+        self.timer.timeout.connect(self.wallpaper.start_next)
         self.wallpaper.msgBox.connect(lambda text, title : QMessageBox.information(self.dialog, title, text))
+    
+    def initBehaviors(self):
+        self.timer.start(self.paperTimeInterval * 60000)
+        
+        cdll.msvcrt.memset(pointer(self.abd), 0, sizeof(self.abd))
+        self.abd.cbSize = sizeof(APPBARDATA)
+        self.abd.hWnd = self.form.winId()
+        self.abd.uCallbackMessage = MSG_APPBAR_MSGID
+        windll.shell32.SHAppBarMessage(ABM_NEW, pointer(self.abd))
+        self.form.show()

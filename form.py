@@ -4,13 +4,11 @@ from ctypes import sizeof, wintypes
 
 from psutil import net_io_counters, virtual_memory
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
+from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QFile, QSettings, Qt, QPoint, QRect, QTimer, QPropertyAnimation, QEvent, QByteArray
 from PySide6.QtGui import QFont, QMouseEvent, QFontDatabase, QEnterEvent
 from PySide6.QtUiTools import QUiLoader
 
-from dialog import Dialog
-from menu import Menu
 from funcbox import *
 
 def gsh(count):

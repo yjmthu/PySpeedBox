@@ -14,7 +14,7 @@ if __name__ == "__main__":
         exit(1)
     app = QApplication([])
     app.setQuitOnLastWindowClosed(False)
-    VarBox().creatWidgets()
+    box = VarBox()
     exit_number = app.exec()
     if exit_number == RETCODE_RESTART:
         sys.argv.insert(0, __file__)

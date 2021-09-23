@@ -25,10 +25,6 @@
   <property name="windowTitle">
    <string> 设置</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="res.qrc">
-    <normaloff>:/icons/speedbox.ico</normaloff>:/icons/speedbox.ico</iconset>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <property name="spacing">
     <number>0</number>
@@ -93,10 +89,10 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_2"/>
+             <widget class="QLineEdit" name="linePyCode"/>
             </item>
             <item>
-             <widget class="QToolButton" name="toolButton">
+             <widget class="QToolButton" name="tBtnChooseCodeFile">
               <property name="text">
                <string>=</string>
               </property>
@@ -150,7 +146,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="LinePath">
+             <widget class="QLineEdit" name="lineNativePaperPath">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -177,12 +173,12 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QRadioButton" name="rBtnAdvance">
+             <widget class="QRadioButton" name="rBtnScript">
               <property name="toolTip">
                <string>来自脚本的输出结果</string>
               </property>
               <property name="text">
-               <string>高级</string>
+               <string>脚本</string>
               </property>
              </widget>
             </item>
@@ -255,7 +251,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="chkEnableChangePaper">
+             <widget class="QCheckBox" name="chkAutoChangePaper">
               <property name="cursor">
                <cursorShape>PointingHandCursor</cursorShape>
               </property>
@@ -268,7 +264,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_3">
+             <widget class="QCheckBox" name="chkChangeWhenStart">
               <property name="toolTip">
                <string>软件启动刚时更换一次壁纸，即使没有勾选自动更换壁纸也有效。</string>
               </property>
@@ -327,7 +323,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pBtnOk">
+          <widget class="QPushButton" name="pBtnWallpaperSave">
            <property name="cursor">
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
@@ -353,7 +349,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pBtnApply">
+          <widget class="QPushButton" name="pBtnWallpaperApply">
            <property name="cursor">
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
@@ -399,7 +395,7 @@
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_13">
             <item>
-             <widget class="QRadioButton" name="radioButton_3">
+             <widget class="QRadioButton" name="rBtnTaskStyleDefault">
               <property name="text">
                <string>默认</string>
               </property>
@@ -409,21 +405,21 @@
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="radioButton_4">
+             <widget class="QRadioButton" name="rBtnTaskStyleTransparent">
               <property name="text">
                <string>透明</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="radioButton_5">
+             <widget class="QRadioButton" name="rBtnTaskStyleGlass">
               <property name="text">
                <string>玻璃</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="radioButton_6">
+             <widget class="QRadioButton" name="rBtnTaskStyleAcrylic">
               <property name="text">
                <string>亚克力</string>
               </property>
@@ -525,7 +521,7 @@
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_15">
             <item>
-             <widget class="QRadioButton" name="radioButton_7">
+             <widget class="QRadioButton" name="rBtnTaskIconLeft">
               <property name="text">
                <string>左</string>
               </property>
@@ -535,14 +531,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="radioButton_8">
+             <widget class="QRadioButton" name="rBtnTaskIconCenter">
               <property name="text">
                <string>中</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="radioButton_9">
+             <widget class="QRadioButton" name="rBtnTaskIconRight">
               <property name="text">
                <string>右</string>
               </property>
@@ -572,7 +568,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSlider" name="sLdTaskAlph">
+             <widget class="QSlider" name="sLdTaskBackAlph">
               <property name="cursor">
                <cursorShape>PointingHandCursor</cursorShape>
               </property>
@@ -597,7 +593,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_4">
+             <widget class="QLabel" name="labelTaskBackAlph">
               <property name="text">
                <string>255</string>
               </property>
@@ -637,7 +633,7 @@ background-color: rgb(0, 0, 0);</string>
              </widget>
             </item>
             <item>
-             <widget class="QSlider" name="sLdIconAlph">
+             <widget class="QSlider" name="sLdTaskIconAlph">
               <property name="cursor">
                <cursorShape>PointingHandCursor</cursorShape>
               </property>
@@ -656,7 +652,7 @@ background-color: rgb(0, 0, 0);</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_6">
+             <widget class="QLabel" name="labelTaskIconAlph">
               <property name="text">
                <string>255</string>
               </property>
@@ -697,7 +693,7 @@ background-color: rgb(0, 0, 0);</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_17">
+             <widget class="QLabel" name="labelTaskRefreshTime">
               <property name="text">
                <string>33</string>
               </property>
@@ -785,7 +781,7 @@ background-color: rgb(0, 0, 0);</string>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_19">
             <item>
-             <widget class="QRadioButton" name="radioButton_11">
+             <widget class="QRadioButton" name="rBtnTaskAlphLow">
               <property name="minimumSize">
                <size>
                 <width>35</width>
@@ -810,7 +806,7 @@ background-color: rgb(0, 0, 0);</string>
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="radioButton_10">
+             <widget class="QRadioButton" name="rBtnIconAlphMid">
               <property name="minimumSize">
                <size>
                 <width>35</width>
@@ -832,7 +828,7 @@ background-color: rgb(0, 0, 0);</string>
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="radioButton_12">
+             <widget class="QRadioButton" name="rBtnIconAlphHigh">
               <property name="minimumSize">
                <size>
                 <width>35</width>
@@ -888,7 +884,7 @@ background-color: rgb(0, 0, 0);</string>
              </spacer>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_4">
+             <widget class="QCheckBox" name="chkControlDesktopIcon">
               <property name="text">
                <string>开启</string>
               </property>
@@ -928,7 +924,7 @@ background-color: rgb(0, 0, 0);</string>
             <number>0</number>
            </property>
            <item>
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="pBtnCancel_2">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                <horstretch>0</horstretch>
@@ -1496,7 +1492,20 @@ background-color: rgb(0, 0, 0);</string>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_25">
           <item>
-           <widget class="QPushButton" name="pushButton_9">
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pBtnOfficialWebsite">
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
@@ -1515,11 +1524,37 @@ background-color: rgb(0, 0, 0);</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_13">
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pBtnVersionInformation">
             <property name="text">
              <string>版本信息</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>
@@ -1530,8 +1565,6 @@ background-color: rgb(0, 0, 0);</string>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="res.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
