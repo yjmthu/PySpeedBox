@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Form</class>
- <widget class="QFrame" name="Form">
+ <widget class="QWidget" name="Form">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -36,7 +36,7 @@
    <string>行動是治癒恐懼的良藥，而猶豫、拖延將不斷滋養恐懼</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QFrame
+   <string notr="true">QWidget
 {
 	border-radius: 3px;
 	background-color: rgba(8, 8, 8, 190);

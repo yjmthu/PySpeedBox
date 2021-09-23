@@ -11,7 +11,7 @@ from PySide6.QtWidgets import QApplication
 if __name__ == "__main__":
     HMutex: wintypes.HANDLE = windll.kernel32.CreateMutexW(None, False, "__PySpeedBox__")
     if windll.kernel32.GetLastError() == ERROR_ALREADY_EXISTS:
-        exit(1)
+        exit(0)
     app = QApplication([])
     app.setQuitOnLastWindowClosed(False)
     box = VarBox()

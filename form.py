@@ -49,7 +49,9 @@ class Form(QMainWindow):
     def initUi(self):
         ui_file = QFile(os.fspath(Path(__file__).resolve().parent / "form.ui"))
         ui_file.open(QFile.ReadOnly)
+        print(1)
         self.ui = QUiLoader().load(ui_file, None)
+        print(2)
         ui_file.close()
         
         self.setCentralWidget(self.ui)
