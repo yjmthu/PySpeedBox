@@ -2,24 +2,21 @@ from ctypes import wintypes, pointer, windll, cdll, sizeof
 import os
 
 from PySide6.QtGui import QColor, QGuiApplication
-from PySide6.QtCore import QDir, QPoint, QStandardPaths, QSettings
+from PySide6.QtCore import QDir, QPoint, QStandardPaths, QSettings, QTimer
 
 from funcbox import *
 from form import Form
 from dialog import Dialog
 from menu import Menu
+from wallpaper import Wallpaper
 
 class VarBox:
 
     TYPE_MS_BING, TYPE_PY_SCRIPT, TYPE_PC_NATIVE = range(3)
 
     def __init__(self) -> None:
-        screen = QGuiApplication.primaryScreen()
-        geo = screen.geometry()
-        self.ScreenWidth = geo.width()
-        self.ScreenHeight = geo.height()
-        self.AppId = str()
-        self.PassWord = str()
+        screen = QGuiApplication.primaryScreen().geometry()
+        self.ScreenWidth, self.ScreenHeight = screen.width(), screen.height()
         self.initSpeedBox()
     
     def creatWidgets(self):
@@ -34,6 +31,11 @@ class VarBox:
 
         self.dialog = Dialog(self)
         self.menu = Menu(self)
+        self.timer = QTimer()
+        self.wallpaper = Wallpaper(self)
+        self.timer.timeout.connect(self.wallpaper.start)
+        self.timer.start(self.paperTimeInterval*60000)
+        self.wallpaper.start()
     
     def initSpeedBox(self):
         main_folder = get_data_path()
@@ -72,6 +74,8 @@ class VarBox:
             IniRead.beginGroup("Translation")
             self.fanyerEnabled = IniRead.value("fanyerEnabled", False, bool)
             self.fanyerAutoHide = IniRead.value("fanyerAutoHide", True, bool)
+            self.fanyerAppId = IniRead.value("fanyerAppId", "20210503000812254", str)
+            self.fanyerPassWord = IniRead.value("fanyerPassWord", "Q_2PPxmCr66r6B2hi0ts", str)
             IniRead.endGroup()
 
             IniRead.beginGroup("Others")
@@ -99,6 +103,8 @@ class VarBox:
 
             self.fanyerEnabled = False
             self.fanyerAutoHide = True
+            self.fanyerAppId = "20210503000812254"
+            self.fanyerPassWord =  "Q_2PPxmCr66r6B2hi0ts"
 
             self.controlDesktopIcon = False
 
@@ -119,6 +125,8 @@ class VarBox:
             IniWrite.beginGroup("Translation")
             IniWrite.setValue("fanyiEnabled", self.fanyerEnabled)
             IniWrite.setValue("fanyerAutoHide", self.fanyerAutoHide)
+            IniWrite.setValue("fanyerAppId", self.fanyerAppId)
+            IniWrite.setValue("fanyerPassWord", self.fanyerPassWord)
             IniWrite.endGroup()
 
             IniWrite.beginGroup("Form")
@@ -136,4 +144,6 @@ class VarBox:
             IniWrite.beginGroup("Others")
             IniWrite.setValue("controlDesktopIcon", self.controlDesktopIcon)
             IniWrite.endGroup()
+        
+        self.paperNativeDir = r"C:\Users\yjmthu\OneDrive\Language\Python\Projects\Netbian\image\4K风景"
 

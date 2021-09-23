@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QFrame</class>
+ <class>frame</class>
  <widget class="QFrame" name="frame">
   <property name="geometry">
    <rect>
@@ -70,12 +70,12 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
-             <widget class="QRadioButton" name="rBtnNew">
+             <widget class="QRadioButton" name="rBtnDefault">
               <property name="toolTip">
-               <string>Wallhaven-Latest</string>
+               <string>来自Unsplash的精彩图片</string>
               </property>
               <property name="text">
-               <string>最新</string>
+               <string>默认</string>
               </property>
               <property name="checked">
                <bool>true</bool>
@@ -83,52 +83,22 @@
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="rBtnHot">
+             <widget class="QRadioButton" name="rBtnCode">
               <property name="toolTip">
-               <string>Wallhaven-Hot</string>
+               <string>自定义代码</string>
               </property>
               <property name="text">
-               <string>最热</string>
+               <string>代码</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="rBtnNature">
-              <property name="toolTip">
-               <string>Wallhaven-Nature</string>
-              </property>
-              <property name="text">
-               <string>自然</string>
-              </property>
-             </widget>
+             <widget class="QLineEdit" name="lineEdit_2"/>
             </item>
             <item>
-             <widget class="QRadioButton" name="rBtnAnime">
-              <property name="toolTip">
-               <string>Wallhaven-Anime</string>
-              </property>
+             <widget class="QToolButton" name="toolButton">
               <property name="text">
-               <string>动漫</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="rBtnSimple">
-              <property name="toolTip">
-               <string>Wallhaven-Minimalism</string>
-              </property>
-              <property name="text">
-               <string>极简</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="rBtnRandom">
-              <property name="toolTip">
-               <string>来自Unsplash的精彩图片</string>
-              </property>
-              <property name="text">
-               <string>随机</string>
+               <string>=</string>
               </property>
              </widget>
             </item>
@@ -217,29 +187,9 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_8">
-              <property name="text">
-               <string>输入高级命令</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QLineEdit" name="usrCmd">
               <property name="toolTip">
                <string>输入一段有效命令</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="chkEnableChangePaper">
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="toolTip">
-               <string>是否启用后台自动更换</string>
-              </property>
-              <property name="text">
-               <string>自动更换壁纸</string>
               </property>
              </widget>
             </item>
@@ -305,69 +255,28 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="chkEnableChangePaper">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="toolTip">
+               <string>是否启用后台自动更换</string>
+              </property>
+              <property name="text">
+               <string>自动更换壁纸</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="checkBox_3">
               <property name="toolTip">
                <string>软件启动刚时更换一次壁纸，即使没有勾选自动更换壁纸也有效。</string>
               </property>
               <property name="text">
-               <string>首更</string>
+               <string>启动时更换</string>
               </property>
               <property name="checked">
                <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="groupBox_10">
-           <property name="toolTip">
-            <string>Wallhaven壁纸的页面位置</string>
-           </property>
-           <property name="title">
-            <string>页面位置</string>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <item>
-             <widget class="QSlider" name="sLdPageNum">
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="toolTip">
-               <string>每页有120张不同壁纸，无需频繁更换。</string>
-              </property>
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>15</number>
-              </property>
-              <property name="pageStep">
-               <number>2</number>
-              </property>
-              <property name="value">
-               <number>1</number>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>1</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBox_2">
-              <property name="toolTip">
-               <string>刷新图片链接文件（不要频繁勾选）</string>
-              </property>
-              <property name="text">
-               <string>刷新</string>
               </property>
              </widget>
             </item>
@@ -1224,7 +1133,7 @@ background-color: rgb(0, 0, 0);</string>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="linePictuerPath">
+             <widget class="QLineEdit" name="lineBingPath">
               <property name="readOnly">
                <bool>false</bool>
               </property>
@@ -1283,101 +1192,20 @@ background-color: rgb(0, 0, 0);</string>
           </size>
          </property>
          <property name="title">
-          <string>右键菜单</string>
+          <string>自定义命令</string>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_23">
           <item>
-           <widget class="QLabel" name="label_14">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>47</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>打开目录</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="lineEdit">
+           <widget class="QLineEdit" name="linePathToOpen">
             <property name="readOnly">
              <bool>true</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_13">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>42</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>可执行文件目录</string>
-            </property>
+           <widget class="QPushButton" name="pushButton">
             <property name="text">
-             <string>默认</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton_14">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>55</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>自定义右键打开的目录</string>
-            </property>
-            <property name="text">
-             <string>自定义</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_4">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>52</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="toolTip">
-             <string>*确认修改</string>
-            </property>
-            <property name="text">
-             <string>确认</string>
+             <string>保存</string>
             </property>
            </widget>
           </item>
@@ -1499,28 +1327,6 @@ background-color: rgb(0, 0, 0);</string>
               </property>
               <property name="text">
                <string>确认</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="groupBox_18">
-           <property name="title">
-            <string>文件清理</string>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_24">
-            <item>
-             <widget class="QPushButton" name="pushButton_7">
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;*清除用户的Speed Box设置,不清除已经下载图片和注册表，也不清除程序&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>清除设置</string>
               </property>
              </widget>
             </item>
@@ -1695,13 +1501,13 @@ background-color: rgb(0, 0, 0);</string>
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="toolTip">
-             <string>https://github.com/yjmthu/Speed-Box</string>
+             <string>https://speed-box.github.io</string>
             </property>
             <property name="styleSheet">
              <string notr="true"/>
             </property>
             <property name="text">
-             <string>Github</string>
+             <string>官方网站</string>
             </property>
             <property name="flat">
              <bool>false</bool>
@@ -1709,36 +1515,9 @@ background-color: rgb(0, 0, 0);</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_14">
-            <property name="toolTip">
-             <string>https://gitee.com/yjmthu/Speed-Box</string>
-            </property>
-            <property name="text">
-             <string>Gitee</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="pushButton_13">
             <property name="text">
              <string>版本信息</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_10">
-            <property name="text">
-             <string>检查更新</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_12">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>下载更新</string>
             </property>
            </widget>
           </item>

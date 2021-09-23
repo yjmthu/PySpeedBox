@@ -4,7 +4,7 @@ from ctypes import sizeof, wintypes
 
 from psutil import net_io_counters, virtual_memory
 
-from PySide6.QtWidgets import QApplication, QWidget
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
 from PySide6.QtCore import QFile, QSettings, Qt, QPoint, QRect, QTimer, QPropertyAnimation, QEvent, QByteArray
 from PySide6.QtGui import QFont, QMouseEvent, QFontDatabase, QEnterEvent
 from PySide6.QtUiTools import QUiLoader
@@ -24,7 +24,7 @@ def gsh(count):
     count >>= 10
     return "%.1f G" % (count / 1024)
 
-class Form(QWidget):
+class Form(QMainWindow):
     _startPos = QPoint()
     _endPos = QPoint()
     _moved = False
@@ -51,8 +51,10 @@ class Form(QWidget):
     def initUi(self):
         ui_file = QFile(os.fspath(Path(__file__).resolve().parent / "form.ui"))
         ui_file.open(QFile.ReadOnly)
-        self.ui = QUiLoader().load(ui_file, self)
+        self.ui = QUiLoader().load(ui_file, None)
         ui_file.close()
+        
+        self.setCentralWidget(self.ui)
 
         font_use = QFontDatabase.addApplicationFont("./fonts/qitijian.otf")
         fontFamilies = QFontDatabase.applicationFontFamilies(font_use)

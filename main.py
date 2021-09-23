@@ -6,7 +6,6 @@ from funcbox import *
 from varbox import VarBox
 
 from PySide6.QtWidgets import QApplication
-from PySide6.QtGui import QGuiApplication
 
 
 if __name__ == "__main__":

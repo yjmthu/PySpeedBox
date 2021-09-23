@@ -3,6 +3,7 @@ from pathlib import Path
 
 from PySide6.QtWidgets import QButtonGroup, QHBoxLayout, QLayout
 from PySide6.QtCore import QFile, QSize, Qt
+from PySide6.QtGui import QShowEvent
 from PySide6.QtUiTools import QUiLoader
 
 from funcbox import *
@@ -22,7 +23,7 @@ class Dialog(SpeedWidget):
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.Window | Qt.WindowSystemMenuHint | Qt.WindowMinimizeButtonHint)
 
         self.setLayout(QHBoxLayout())
-        self.layout().setContentsMargins(5,5,5,5)
+        self.layout().setContentsMargins(5, 5, 5, 5)
         qss = open("./qss/dialog_style.qss", 'rb')
         self.setStyleSheet(str(qss.read(), encoding='utf-8'))
         qss.close()
@@ -35,13 +36,13 @@ class Dialog(SpeedWidget):
 
         self.setMinimumSize(QSize(DIALOG_WIDTH, DIALOG_HEIGHT))
         self.setMaximumSize(QSize(DIALOG_WIDTH, DIALOG_HEIGHT))
-        #self.ui.lineAppData.setText(self.box.get_dat_path())
+
         self.move((self.box.ScreenWidth - self.width()) / 2, (self.box.ScreenHeight - self.height()) / 2)
         self.ui.setStyleSheet("QFrame{background-color:rgba(0, 0, 0, 100);}QLabel{border-radius: 3px;background-color: transparent;}Line{background-color:black};")
         self.initSpeedBox(self.ui, self.showMinimized, self.close)
 
     def setTheme(self):
-        self.ui.frame.setStyleSheet("QFrame{background-color:rgba(%1);} QLabel{border-radius: 3px;background-color: transparent;}Line{background-color:black};")
+        self.ui.setStyleSheet("QFrame{background-color:rgba(%1);} QLabel{border-radius: 3px;background-color: transparent;}Line{background-color:black};")
         self.jobTip.showTip("设置成功！")
     
     def initChildren(self):
@@ -50,12 +51,8 @@ class Dialog(SpeedWidget):
     def initOthers(self):
         pass
         # self.buttonGroup.addButton(self.ui.rBtnNew, self.box.PAPER_TYPE.Latest)
-        # self.buttonGroup.addButton(self.ui.rBtnHot, self.box.PAPER_TYPE.Hot)
-        # self.buttonGroup.addButton(self.ui.rBtnNature, self.box.PAPER_TYPE.Nature)
-        # self.buttonGroup.addButton(self.ui.rBtnAnime, self.box.PAPER_TYPE.Anime)
-        # self.buttonGroup.addButton(self.ui.rBtnSimple, self.box.PAPER_TYPE.Simple)
-        # self.buttonGroup.addButton(self.ui.rBtnRandom, self.box.PAPER_TYPE.Random)
-        # self.buttonGroup.addButton(self.ui.rBtnBing, self.box.PAPER_TYPE.Bing)
-        # self.buttonGroup.addButton(self.ui.rBtnNative, self.box.PAPER_TYPE.Native)
-        # self.buttonGroup.addButton(self.ui.rBtnAdvance, self.box.PAPER_TYPE.Advance)
         # self.buttonGroup.setExclusive(True)
+    
+    def showEvent(self, event: QShowEvent) -> None:
+        self.ui.lineAppData.setText(get_data_path())
+        return super().showEvent(event)
