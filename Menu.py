@@ -71,8 +71,10 @@ class Menu(QMenu):
         self.addAction(self.noSleepAct)
 
     def initConnects(self):
-        self.connect(self.quitAct, SIGNAL('triggered()'), lambda: QApplication.instance().quit())
-        self.connect(self.settingDialogAct, SIGNAL('triggered()'), lambda: self.box.dialog.show())
+        self.connect(self.quitAct, SIGNAL('triggered()'), QApplication.quit)
+        self.connect(self.settingDialogAct, SIGNAL('triggered()'), self.box.dialog.show)
+        self.connect(self.nextPaperAct, SIGNAL('triggered()'), self.box.wallpaper.start_next)
+        self.connect(self.prevPaperAct, SIGNAL('triggered()'), self.box.wallpaper.start_prev)
         #self.quitAct.triggered.connect(lambda: QApplication.instance().quit())
 
     def Show(self, pos:QPoint):

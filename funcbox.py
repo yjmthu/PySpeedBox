@@ -47,7 +47,7 @@ def isOnline(box, wait):
 
 def isOneDriveFile(file_name):
     with open(file_name, 'rb') as f:
-        if f.read1(1):
+        if f.read(1):
             return True
     return False
 

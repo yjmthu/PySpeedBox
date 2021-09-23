@@ -1,6 +1,6 @@
 # This Python file uses the following encoding: utf-8
 import os, sys
-from ctypes import wintypes, pointer, sizeof, windll
+from ctypes import wintypes, windll
 
 from funcbox import *
 from varbox import VarBox
@@ -18,7 +18,6 @@ if __name__ == "__main__":
     exit_number = app.exec()
     if exit_number == RETCODE_RESTART:
         sys.argv.insert(0, __file__)
-        sys.argv.append("restart")
         windll.kernel32.CloseHandle(HMutex)
         os.execv(sys.executable, sys.argv)
     elif exit_number == RETCODE_ERROR_EXIT:

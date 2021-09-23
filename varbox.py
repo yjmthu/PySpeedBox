@@ -1,8 +1,9 @@
-from ctypes import wintypes, pointer, windll, cdll, sizeof
+from ctypes import pointer, windll, cdll, sizeof
 import os
 
 from PySide6.QtGui import QColor, QGuiApplication
 from PySide6.QtCore import QDir, QPoint, QStandardPaths, QSettings, QTimer
+from PySide6.QtWidgets import QMessageBox
 
 from funcbox import *
 from form import Form
@@ -18,6 +19,8 @@ class VarBox:
         screen = QGuiApplication.primaryScreen().geometry()
         self.ScreenWidth, self.ScreenHeight = screen.width(), screen.height()
         self.initSpeedBox()
+        self.initChildren()
+        self.initConnections()
     
     def creatWidgets(self):
         self.form = Form(self)
@@ -28,14 +31,6 @@ class VarBox:
         self.abd.uCallbackMessage = MSG_APPBAR_MSGID
         windll.shell32.SHAppBarMessage(ABM_NEW, pointer(self.abd))
         self.form.show()
-
-        self.dialog = Dialog(self)
-        self.menu = Menu(self)
-        self.timer = QTimer()
-        self.wallpaper = Wallpaper(self)
-        self.timer.timeout.connect(self.wallpaper.start)
-        self.timer.start(self.paperTimeInterval*60000)
-        self.wallpaper.start()
     
     def initSpeedBox(self):
         main_folder = get_data_path()
@@ -147,3 +142,15 @@ class VarBox:
         
         self.paperNativeDir = r"C:\Users\yjmthu\OneDrive\Language\Python\Projects\Netbian\image\4K风景"
 
+    def initChildren(self):
+        self.timer = QTimer()
+        self.wallpaper = Wallpaper(self)
+        self.timer.timeout.connect(self.wallpaper.start_next)
+        self.timer.start(self.paperTimeInterval * 60000)
+        self.wallpaper.start_next()
+
+        self.dialog = Dialog(self)
+        self.menu = Menu(self)
+
+    def initConnections(self):
+        self.wallpaper.msgBox.connect(lambda text, title : QMessageBox.information(self.dialog, title, text))
