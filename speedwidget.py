@@ -5,22 +5,22 @@ from PySide6.QtGui import QMouseEvent
 from gmpoperatetip import GMPOperateTip
 from blankform import BlankFrom
 
-class  SpeedWidget(QWidget):
+class  SpeedWidget(QDialog):
     _startPos = QPoint()
     _endPos = QPoint()
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent)
         self.setAttribute(Qt.WA_TranslucentBackground)
 
-    def initSpeedBox(self, frame: QFrame, left, right) -> None:
+    def initSpeedBox(self, frame: QFrame, left, right, top=7) -> None:
         self.effect = QGraphicsDropShadowEffect(self)
         self.effect.setOffset(0, 0)
         self.effect.setBlurRadius(15)
         self.effect.setColor(Qt.black)
         frame.setGraphicsEffect(self.effect)
         self.jobTip = GMPOperateTip(self)
-        self.blank = BlankFrom(self, left, right)
+        self.blank = BlankFrom(self, left, right, top)
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
         if event.buttons() == Qt.LeftButton:

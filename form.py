@@ -1,10 +1,11 @@
+from fanyer import Fanyer
 import os
 from pathlib import Path
 from ctypes import wintypes
 
 from psutil import net_io_counters, virtual_memory
 
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtWidgets import QApplication, QHBoxLayout, QMainWindow, QWidget
 from PySide6.QtCore import QFile, QSettings, Qt, QPoint, QRect, QTimer, QPropertyAnimation, QEvent
 from PySide6.QtGui import QFont, QMouseEvent, QFontDatabase, QEnterEvent
 from PySide6.QtUiTools import QUiLoader
@@ -22,7 +23,7 @@ def gsh(count):
     count >>= 10
     return "%.1f G" % (count / 1024)
 
-class Form(QMainWindow):
+class Form(QWidget):
     _startPos = QPoint()
     _endPos = QPoint()
     _moved = False
@@ -46,12 +47,12 @@ class Form(QMainWindow):
         self.ui.LabMemory.setText(str(int(round(virtual_memory().percent))))
 
     def initUi(self):
+        self.setLayout(QHBoxLayout())
+        self.layout().setContentsMargins(0, 0, 0, 0)
         ui_file = QFile(os.fspath(Path(__file__).resolve().parent / "form.ui"))
         ui_file.open(QFile.ReadOnly)
         self.ui = QUiLoader().load(ui_file)
         ui_file.close()
-
-        self.setCentralWidget(self.ui)
 
         font_use = QFontDatabase.addApplicationFont("./fonts/qitijian.otf")
         fontFamilies = QFontDatabase.applicationFontFamilies(font_use)
@@ -72,12 +73,13 @@ class Form(QMainWindow):
         self.setMinimumSize(FORM_WIDTH, FORM_HEIGHT)
         self.setMaximumSize(FORM_WIDTH, FORM_HEIGHT)
         self.ui.LabMemory.setMaximumWidth(30)
-
+        self.layout().addChildWidget(self.ui)
         self.move(self.box.formUiPos)
 
     def initChildren(self):
         self.animation = QPropertyAnimation(self, b"geometry", self)
         self.timer = QTimer(self)
+        self.fanyer = Fanyer(self.box, self)
 
     def initConnects(self):
         self.timer.timeout.connect(self.start)
@@ -113,6 +115,8 @@ class Form(QMainWindow):
         if event.buttons() == Qt.LeftButton:
             self._endPos = event.pos() - self._startPos
             self.move(self.pos() + self._endPos)
+        if self.box.fanyerEnabled and self.fanyer.isVisible():
+            self.fanyer.hide()
         return super().mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event: QMouseEvent) -> None:
@@ -121,7 +125,12 @@ class Form(QMainWindow):
             self.savePos()
         return super().mouseReleaseEvent(event)
 
-    def mouseDoubleClickEvent(self, event: QMouseEvent) -> None: 
+    def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:
+        if self.box.fanyerEnabled:
+            if not self.fanyer.isVisible():
+                self.fanyer.show()
+            else:
+                self.fanyer.hide()
         return super().mouseDoubleClickEvent(event)
 
     def enterEvent(self, event: QEnterEvent) -> None:

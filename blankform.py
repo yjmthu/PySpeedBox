@@ -3,14 +3,14 @@ from PySide6.QtCore import Qt, QEvent
 from PySide6.QtGui import QEnterEvent
 
 class BlankFrom(QWidget):
-    def __init__(self, parent, left, right) -> None:
+    def __init__(self, parent, left, right, top=7) -> None:
         super().__init__(parent)
         self.setMaximumSize(100, 40)
         self.setMinimumSize(100, 40)
         self.__closeButton = QPushButton(self)
         self.__minButton = QPushButton(self)
-        self.__minButton.setGeometry(self.width()-75,7,14,14)
-        self.__closeButton.setGeometry(self.width()-40,7,14,14)
+        self.__minButton.setGeometry(self.width()-75,top,14,14)
+        self.__closeButton.setGeometry(self.width()-40,top,14,14)
         self.__minButton.setToolTip("最小化")
         self.__closeButton.setToolTip("关闭")
         self.__minButton.setCursor(Qt.PointingHandCursor)

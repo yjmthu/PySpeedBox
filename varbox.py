@@ -58,6 +58,9 @@ class VarBox:
             
             IniRead.beginGroup("Form")
             self.formUiPos = QPoint(IniRead.value("formUiPosX", 100, int), IniRead.value("formUiPosY", 100, int))
+            self.formUiColorRgb = IniRead.value("formUiColorRgb", 0x080808, int)
+            self.formUiOpacity = IniRead.value("formUiOpacity", 0x08, int)
+            self.formUiWin10Style = IniRead.value("formUiWin10Style", ACCENT_STATE.ACCENT_ENABLE_TRANSPARENTGRADIENT.value[0], int)
             IniRead.endGroup()
 
             IniRead.beginGroup("Translation")
@@ -65,6 +68,21 @@ class VarBox:
             self.fanyerAutoHide: bool = IniRead.value("fanyerAutoHide", True, bool)
             self.fanyerAppId: str = IniRead.value("fanyerAppId", "20210503000812254", str)
             self.fanyerPassWord: str = IniRead.value("fanyerPassWord", "Q_2PPxmCr66r6B2hi0ts", str)
+            IniRead.endGroup()
+
+            IniRead.beginGroup("Taskbar")
+            self.taskbarRefreshTime: int = IniRead.value("taskbarRefreshTime", 33, int)
+            self.taskbarIconPosition: int = IniRead.value("taskbarIconPosition", 255, int)
+
+            self.taskbarOpacityA: int = IniRead.value("taskbarOpacityA", 0x11, int)
+            self.taskbarIconOpacityA: int = IniRead.value("taskbarIconOpacityA", 255, int)
+            self.taskbarRgbA: int = IniRead.value("taskbarRgbA", 0x111111, int)
+            self.taskbarWin10StyleA: int = IniRead.value("taskbarWin10StyleA", ACCENT_STATE.ACCENT_DISABLED.value[0], int)
+            
+            self.taskbarOpacityW: int = IniRead.value("taskbarOpacityW", 0x11, int)
+            self.taskbarIconOpacityW: int = IniRead.value("taskbarIconOpacityW", 255, int)
+            self.taskbarRgbW: int = IniRead.value("taskbarRgbW", 0x111111, int)
+            self.taskbarWin10StyleW: int = IniRead.value("taskbarWin10StyleW", ACCENT_STATE.ACCENT_DISABLED.value[0], int)
             IniRead.endGroup()
 
             IniRead.beginGroup("Others")
@@ -91,11 +109,25 @@ class VarBox:
             self.dialogUiTheme = QColor(8, 8, 8, 8)
             
             self.formUiPos = QPoint(100, 100)
+            self.formUiColorRgb = 0x080808
+            self.formUiOpacity = 0x08
+            self.formUiWin10Style = ACCENT_STATE.ACCENT_ENABLE_TRANSPARENTGRADIENT.value[0]
 
             self.fanyerEnabled = False
             self.fanyerAutoHide = True
             self.fanyerAppId = "20210503000812254"
             self.fanyerPassWord =  "Q_2PPxmCr66r6B2hi0ts"
+
+            self.taskbarRefreshTime: int =  33
+            self.taskbarIconPosition: int = 255
+            self.taskbarOpacityA: int = 0x11
+            self.taskbarIconOpacityA: int = 255
+            self.taskbarRgbA: int = 0x111111
+            self.taskbarWin10StyleA: int = ACCENT_STATE.ACCENT_DISABLED.value[0]
+            self.taskbarOpacityW: int = 0x11
+            self.taskbarIconOpacityW: int = 255
+            self.taskbarRgbW: int = 0x111111
+            self.taskbarWin10StyleW: int = ACCENT_STATE.ACCENT_DISABLED.value[0]
 
             self.controlDesktopIcon = False
 
@@ -133,6 +165,19 @@ class VarBox:
             IniWrite.setValue("dialogUiThemeB", self.dialogUiTheme.blue())
             IniWrite.setValue("dialogUiThemeA", self.dialogUiTheme.alpha())
             IniWrite.endGroup()
+        
+            IniWrite.beginGroup("Taskbar")
+            IniWrite.setValue("taskbarRefreshTime", self.taskbarRefreshTime)
+            IniWrite.setValue("taskbarIconPosition", self.taskbarIconPosition)
+            IniWrite.setValue("taskbarOpacityA", self.taskbarOpacityA)
+            IniWrite.setValue("taskbarIconOpacityA", self.taskbarIconOpacityA)
+            IniWrite.setValue("taskbarRgbA", self.taskbarRgbA)
+            IniWrite.setValue("taskbarWin10StyleA", self.taskbarWin10StyleA)
+            IniWrite.setValue("taskbarOpacityW", self.taskbarOpacityW)
+            IniWrite.setValue("taskbarIconOpacityW", self.taskbarIconOpacityW)
+            IniWrite.setValue("taskbarRgbW", self.taskbarRgbW)
+            IniWrite.setValue("taskbarWin10StyleW", self.taskbarWin10StyleW)
+            IniWrite.endGroup()
 
             IniWrite.beginGroup("Others")
             IniWrite.setValue("controlDesktopIcon", self.controlDesktopIcon)
@@ -140,6 +185,7 @@ class VarBox:
         
         self.paperNativeDir = r"C:\Users\yjmthu\OneDrive\Language\Python\Projects\Netbian\image\4K风景"
         self.paperType = self.TYPE_PC_NATIVE
+        self.fanyerEnabled = True
 
     def initChildren(self):
         self.timer = QTimer()
@@ -163,4 +209,11 @@ class VarBox:
         self.abd.hWnd = self.form.winId()
         self.abd.uCallbackMessage = MSG_APPBAR_MSGID
         windll.shell32.SHAppBarMessage(ABM_NEW, pointer(self.abd))
+        accentPolicy = ACCENT_POLICY(ACCENT_STATE.ACCENT_ENABLE_BLURBEHIND.value[0], 2, 0x4FFFFF, 0)
+        winCompAttrData = WINDOWCOMPOSITIONATTRIBDATA()
+        winCompAttrData.Attribute = WINDOWCOMPOSITIONATTRIB.WCA_ACCENT_POLICY.value[0]
+        winCompAttrData.SizeOfData = sizeof(accentPolicy)
+        winCompAttrData.Data = pointer(accentPolicy)
+        SetWindowCompositionAttribute(self.form.winId(), pointer(winCompAttrData))
+        self.form.ui.setStyleSheet("QFrame{background-color: rgba(255, 255, 255, 79); border-radius: 3px;}")
         self.form.show()

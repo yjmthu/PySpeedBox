@@ -17,7 +17,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
-      <widget class="QLabel" name="label_6">
+      <widget class="QLabel" name="Icon">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
          <horstretch>0</horstretch>
@@ -38,7 +38,7 @@
        </property>
        <property name="styleSheet">
         <string notr="true">QLabel{
-border-image: url(:/icons/ya.ico);
+border-image: url(./icons/ya.ico);
 }</string>
        </property>
        <property name="text">

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Translater</class>
- <widget class="QWidget" name="Translater">
+ <class>Fanyer</class>
+ <widget class="QFrame" name="Fanyer">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>240</width>
-    <height>280</height>
+    <height>300</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -20,14 +20,17 @@
    <string> 极简翻译</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="res.qrc">
+   <iconset>
     <normaloff>:/icons/ya.ico</normaloff>:/icons/ya.ico</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="topMargin">
+    <number>9</number>
+   </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="Icon">
        <property name="minimumSize">
         <size>
          <width>20</width>
@@ -42,7 +45,7 @@
        </property>
        <property name="styleSheet">
         <string notr="true">QLabel{
-border-image: url(:/icons/ya.ico);
+border-image: url(./icons/ya.ico);
 }</string>
        </property>
        <property name="text">
@@ -144,8 +147,8 @@ QPushButton:hover {
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="res.qrc">
-         <normaloff>:/icons/copy.ico</normaloff>:/icons/copy.ico</iconset>
+        <iconset>
+         <normaloff>icons/copy.ico</normaloff>icons/copy.ico</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -267,8 +270,6 @@ QPushButton:hover {
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="res.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

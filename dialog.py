@@ -1,3 +1,4 @@
+from bingsetting import BingSetting
 import os
 from pathlib import Path
 
@@ -65,6 +66,7 @@ class Dialog(SpeedWidget):
         self.ui.sLdTaskIconAlph.valueChanged.connect(lambda value: self.ui.labelTaskIconAlph.setText(str(value)))
         self.ui.sLdUpdateRefreshTime.valueChanged.connect(lambda value: self.ui.labelTaskRefreshTime.setText(str(value)))
         self.ui.cBxAutoStart.clicked.connect(self.setAppAutoStart)
+        self.ui.tBtnSetBing.clicked.connect(lambda: BingSetting(self, self.box).Show())
         self.ui.chkControlDesktopIcon.clicked.connect(self.setControlDesktopIcon)
         self.ui.pBtnOpenAppData.clicked.connect(lambda: subRunCmd('start explorer {}'.format(get_dat_path())))
         self.ui.pBtnOfficialWebsite.clicked.connect(lambda: windll.Shell32.ShellExecuteW(None, "open", "https://speed-box.github.io", None, None, SW_SHOW))
@@ -88,9 +90,9 @@ class Dialog(SpeedWidget):
         sliders = self.ui.findChildren(QSlider)
         for slider in sliders:
             slider.installEventFilter(self)
-        # combs = self.ui.findChildren(QComboBox)
-        # for comb in combs:
-        #     comb.installEventFilter(self)
+        combs = self.ui.findChildren(QComboBox)
+        for comb in combs:
+            comb.installEventFilter(self)
     
     def showEvent(self, event: QShowEvent) -> None:
         self.ui.lineNativePaperPath.setText(self.box.paperNativeDir)
@@ -110,9 +112,9 @@ class Dialog(SpeedWidget):
         return super().showEvent(event)
     
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
-        # if isinstance(watched, QComboBox):
-        #     if event.type() == QEvent.MouseMove:
-        #         return True
+        if isinstance(watched, QComboBox):
+            if event.type() == QEvent.MouseMove:
+                return True
         if isinstance(watched, QSlider):
             env: QMouseEvent = event
             tar: QSlider = watched

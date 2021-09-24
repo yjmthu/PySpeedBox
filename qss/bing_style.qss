@@ -146,3 +146,41 @@ QSlider::handle:Horizontal {
     background-color: yellow;
     margin: -3px 0px;
 }
+
+QLineEdit[readOnly="true"]{
+    border-radius: 3px;
+    color:gray;
+}
+
+QLineEdit{
+    border-radius: 3px;
+    padding:2px;
+    background-color: #d1e8f7;
+}
+
+QLineEdit:hover[readOnly="false"]{
+    border-radius: 3px;
+    background-color: #6ed1b3;
+}
+
+QLineEdit:hover[readOnly="true"]{
+    border-radius: 3px;
+    background-color: #c0e0ff;
+}
+
+QToolButton{
+    border-radius: 3px;
+    background-color: grey;
+}
+
+QToolButton:hover{
+    background-color: grey;
+}
+
+QToolButton:enabled{
+    background-color: rgb(150,200,150);
+}
+
+QToolButton:enabled:hover{
+    background-color: rgb(1,200,150);
+}
