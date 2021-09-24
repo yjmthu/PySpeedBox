@@ -18,6 +18,7 @@ class VarBox:
     def __init__(self) -> None:
         screen = QGuiApplication.primaryScreen().geometry()
         self.ScreenWidth, self.ScreenHeight = screen.width(), screen.height()
+        self.appVersion = "PySpeedBox - PySide6, 2021"
         self.initSpeedBox()
         self.initChildren()
         self.initConnections()
@@ -38,8 +39,8 @@ class VarBox:
             self.paperAutoChange: bool = IniRead.value("paperAutoChange", False, bool)
             self.paperTimeInterval: int = IniRead.value("paperTimeInterval", 15, int)
             self.paperType = IniRead.value("paperType", VarBox.TYPE_MS_BING, int)
-            self.paperNativeDir: str = QDir.toNativeSeparators(QStandardPaths.writableLocation(QStandardPaths.PicturesLocation))
-            self.paperNativeDir: str = IniRead.value("paperNativeDir", self.paperNativeDir, str)
+            userPictureDir: str = QDir.toNativeSeparators(QStandardPaths.writableLocation(QStandardPaths.PicturesLocation))
+            self.paperNativeDir: str = IniRead.value("paperNativeDir", userPictureDir, str)
             self.paperHistory.append(QSettings("HKEY_CURRENT_USER\\Control Panel\\Desktop", QSettings.NativeFormat).value("WallPaper", None, str))
             IniRead.endGroup()
 
@@ -47,6 +48,7 @@ class VarBox:
             self.bingDateAsName: bool = IniRead.value("bingDateAsName", True, bool)
             self.bingAutoSave: bool = IniRead.value("bingAutoSave", True, bool)
             self.bingAutoRotation: bool = IniRead.value("bingAutoRotation", True, bool)
+            self.bingPaperDir: str = IniRead.value("bingPaperDir", os.path.join(userPictureDir, "必应壁纸"), str)
             IniRead.endGroup()
 
             IniRead.beginGroup("Dialog")
@@ -59,14 +61,14 @@ class VarBox:
             IniRead.endGroup()
 
             IniRead.beginGroup("Translation")
-            self.fanyerEnabled = IniRead.value("fanyerEnabled", False, bool)
-            self.fanyerAutoHide = IniRead.value("fanyerAutoHide", True, bool)
-            self.fanyerAppId = IniRead.value("fanyerAppId", "20210503000812254", str)
-            self.fanyerPassWord = IniRead.value("fanyerPassWord", "Q_2PPxmCr66r6B2hi0ts", str)
+            self.fanyerEnabled: bool = IniRead.value("fanyerEnabled", False, bool)
+            self.fanyerAutoHide: bool = IniRead.value("fanyerAutoHide", True, bool)
+            self.fanyerAppId: str = IniRead.value("fanyerAppId", "20210503000812254", str)
+            self.fanyerPassWord: str = IniRead.value("fanyerPassWord", "Q_2PPxmCr66r6B2hi0ts", str)
             IniRead.endGroup()
 
             IniRead.beginGroup("Others")
-            self.controlDesktopIcon = IniRead.value("controlDesktopIcon", False, bool)
+            self.controlDesktopIcon: bool = IniRead.value("controlDesktopIcon", False, bool)
             IniRead.endGroup()
         else:
             self.appfirstUse = True
@@ -84,6 +86,7 @@ class VarBox:
             self.bingDateAsName = True
             self.bingAutoSave = True
             self.bingAutoRotation = True
+            self.bingPaperDir = os.path.join(self.paperNativeDir, "必应壁纸")
 
             self.dialogUiTheme = QColor(8, 8, 8, 8)
             
@@ -103,12 +106,13 @@ class VarBox:
             IniWrite.setValue("paperTimeInterval", self.paperTimeInterval)
             IniWrite.setValue("paperAutoChange", self.paperAutoChange)
             IniWrite.setValue("paperNativeDir", self.paperNativeDir)
-            IniWrite.setValue("bingDateAsName", self.bingDateAsName)
             IniWrite.endGroup()
 
             IniWrite.beginGroup("Bing")
             IniWrite.setValue("bingAutoSave", self.bingAutoSave)
             IniWrite.setValue("bingAutoRotation", self.bingAutoRotation)
+            IniWrite.setValue("bingDateAsName", self.bingDateAsName)
+            IniWrite.setValue("bingPaperDir", self.bingPaperDir)
             IniWrite.endGroup()
 
             IniWrite.beginGroup("Translation")

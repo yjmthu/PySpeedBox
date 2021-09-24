@@ -2,10 +2,10 @@
 import os, sys
 from ctypes import wintypes, windll
 
+from PySide6.QtWidgets import QApplication
+
 from funcbox import *
 from varbox import VarBox
-
-from PySide6.QtWidgets import QApplication
 
 
 if __name__ == "__main__":
@@ -17,9 +17,10 @@ if __name__ == "__main__":
     box = VarBox()
     exit_number = app.exec()
     if exit_number == RETCODE_RESTART:
-        sys.argv.insert(0, __file__)
+        # sys.argv.insert(0, __file__)
         windll.kernel32.CloseHandle(HMutex)
-        os.execv(sys.executable, sys.argv)
+        # os.execv(sys.executable, sys.argv)
+        windll.Shell32.ShellExecuteW(None, "open", "pythonw.exe", "-u {}".format(get_scr_path()), get_dir_path(), SW_NORMAL)
     elif exit_number == RETCODE_ERROR_EXIT:
         windll.kernel32.CloseHandle(HMutex)
         sys.exit(1)

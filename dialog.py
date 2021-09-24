@@ -61,14 +61,25 @@ class Dialog(SpeedWidget):
     def initConnections(self):
         self.ui.rBtnNative.toggled.connect(lambda checked: self.ui.BtnChooseFolder.setEnabled(checked))
         self.ui.sLdTimeInterval.valueChanged.connect(lambda value: self.ui.labTimeInterval.setText(str(value)))
+        self.ui.sLdTaskBackAlph.valueChanged.connect(lambda value: self.ui.labelTaskBackAlph.setText(str(value)))
+        self.ui.sLdTaskIconAlph.valueChanged.connect(lambda value: self.ui.labelTaskIconAlph.setText(str(value)))
+        self.ui.sLdUpdateRefreshTime.valueChanged.connect(lambda value: self.ui.labelTaskRefreshTime.setText(str(value)))
         self.ui.cBxAutoStart.clicked.connect(self.setAppAutoStart)
+        self.ui.chkControlDesktopIcon.clicked.connect(self.setControlDesktopIcon)
+        self.ui.pBtnOpenAppData.clicked.connect(lambda: subRunCmd('start explorer {}'.format(get_dat_path())))
+        self.ui.pBtnOfficialWebsite.clicked.connect(lambda: windll.Shell32.ShellExecuteW(None, "open", "https://speed-box.github.io", None, None, SW_SHOW))
+        self.ui.pBtnVersionInformation.clicked.connect(lambda: self.jobTip.showTip(self.box.appVersion, 1000))
+        self.ui.pBtnWallpaperApply.clicked.connect(self.applyPaper)
+        self.ui.pBtnWallpaperSave.clicked.connect(self.savePaper)
+        self.ui.pBtnCancel.clicked.connect(self.close)
+        self.ui.pBtnCancel_2.clicked.connect(self.close)
 
     def initOthers(self):
         self.buttonGroup.addButton(self.ui.rBtnDefault, 0)
         self.buttonGroup.addButton(self.ui.rBtnCode, 1)
         self.buttonGroup.addButton(self.ui.rBtnBing, 2)
         self.buttonGroup.addButton(self.ui.rBtnNative, 3)
-        self.buttonGroup.addButton(self.ui.rBtnScript, 4)
+        self.buttonGroup.addButton(self.ui.rBtnCmd, 4)
         self.buttonGroup.setExclusive(True)
 
         # pBtns = self.ui.findChildren(QPushButton)
@@ -77,9 +88,9 @@ class Dialog(SpeedWidget):
         sliders = self.ui.findChildren(QSlider)
         for slider in sliders:
             slider.installEventFilter(self)
-        combs = self.ui.findChildren(QComboBox)
-        for comb in combs:
-            comb.installEventFilter(self)
+        # combs = self.ui.findChildren(QComboBox)
+        # for comb in combs:
+        #     comb.installEventFilter(self)
     
     def showEvent(self, event: QShowEvent) -> None:
         self.ui.lineNativePaperPath.setText(self.box.paperNativeDir)
@@ -96,15 +107,13 @@ class Dialog(SpeedWidget):
         self.ui.chkFolderBack.setChecked(QSettings(reg_keys[2], QSettings.NativeFormat).contains("."))
         self.ui.chkTimeUnit_sec.setChecked(QSettings(TASK_DESK_SUB, QSettings.NativeFormat).contains(SHOW_SECONDS_IN_SYSTEM_CLOCK))
         self.buttonGroup.button(self.box.paperType).setChecked(True)
-
-        #self.ui.BtnChooseFolder.setEnabled(last_checked_button == 7)
         return super().showEvent(event)
     
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
-        if isinstance(watched, QComboBox):
-            if event.type() == QEvent.MouseMove:
-                return True
-        elif isinstance(watched, QSlider):
+        # if isinstance(watched, QComboBox):
+        #     if event.type() == QEvent.MouseMove:
+        #         return True
+        if isinstance(watched, QSlider):
             env: QMouseEvent = event
             tar: QSlider = watched
             if event.type() == QEvent.MouseMove:
@@ -130,3 +139,49 @@ class Dialog(SpeedWidget):
         else:
             reg.remove("PySpeedBox")
         self.jobTip.showTip("修改成功！")
+    
+    def setControlDesktopIcon(self, checked):
+        if checked:
+            pass
+        else:
+            pass
+        self.box.controlDesktopIcon = checked
+        IniWrite = QSettings(get_ini_path(), QSettings.IniFormat)
+        IniWrite.beginGroup("Others")
+        IniWrite.setValue("controlDesktopIcon", self.box.controlDesktopIcon)
+        IniWrite.endGroup()
+        self.jobTip.showTip("设置并保存成功！")
+    
+    def savePaper(self):
+        IniWrite = QSettings(get_ini_path(), QSettings.IniFormat)
+        IniWrite.beginGroup("Wallpaper")
+        IniWrite.setValue("paperType", self.box.paperType)
+        IniWrite.setValue("paperChangeWhenStart", self.box.paperChangeWhenStart)
+        IniWrite.setValue("paperTimeInterval", self.box.paperTimeInterval)
+        IniWrite.setValue("paperAutoChange", self.box.paperAutoChange)
+        IniWrite.setValue("paperNativeDir", self.box.paperNativeDir)
+        IniWrite.endGroup()
+        self.jobTip.showTip("保存成功！")
+    
+    def applyPaper(self):
+        self.box.paperNativeDir = self.ui.lineNativePaperPath.text()
+        self.box.paperAutoChange = self.ui.chkAutoChangePaper.isChecked()
+        self.box.paperChangeWhenStart = self.ui.chkChangeWhenStart.isChecked()
+        self.box.paperTimeInterval = self.ui.sLdTimeInterval.value()
+        self.box.fanyerAppId = self.ui.line_APP_ID.text()
+        self.box.fanyerPassWord = self.ui.line_PASS_WORD.text()
+        self.box.paperType = self.buttonGroup.checkedId()
+        self.jobTip.showTip("应用成功！")
+    
+    def saveBing(self):
+        IniWrite = QSettings(get_ini_path(), QSettings.IniFormat)
+        IniWrite.beginGroup("Bing")
+        IniWrite.setValue("bingDateAsName", self.box.bingDateAsName)
+        IniWrite.setValue("bingAutoSave", self.box.bingAutoSave)
+        IniWrite.setValue("bingAutoRotation", self.box.bingAutoRotation)
+        IniWrite.setValue("bingPaperDir", self.box.bingPaperDir)
+        IniWrite.endGroup()
+        self.jobTip.showTip("保存成功！")
+    
+    # def applyBing(self):
+    #     self.box.bingDateAsName = 0

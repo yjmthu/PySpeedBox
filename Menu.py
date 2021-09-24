@@ -1,5 +1,4 @@
 # This Python file uses the following encoding: utf-8
-import sys, subprocess
 from ctypes import byref
 
 from PySide6.QtWidgets import QMenu, QApplication
@@ -20,7 +19,6 @@ class Menu(QMenu):
     
     def initChildren(self):
         self.timer = QTimer()
-        self.subruncmd = lambda cmd: subprocess.run(cmd, shell=True, stdin=-1, stdout=-1, stderr=-1)
     
     def do_stop_sleep(self, checked):
         if checked:
@@ -100,9 +98,9 @@ class Menu(QMenu):
         self.connect(self.nextPaperAct, SIGNAL('triggered()'), self.box.wallpaper.start_next)
         self.connect(self.prevPaperAct, SIGNAL('triggered()'), self.box.wallpaper.start_prev)
         self.connect(self.remoPicAct, SIGNAL('triggered()'), self.box.wallpaper.start_remo)
-        self.connect(self.openFolderAct, SIGNAL('triggered()'), lambda: self.subruncmd('start explorer {}'.format(get_dir_path())))
+        self.connect(self.openFolderAct, SIGNAL('triggered()'), lambda: subRunCmd('start explorer {}'.format(get_dir_path())))
         self.connect(self.noSleepAct, SIGNAL('triggered(bool)'), self.do_stop_sleep)
-        self.connect(self.shutdownAct,  SIGNAL('triggered()'), lambda: self.subruncmd('shutdown -s -t 0 -f'))
+        self.connect(self.shutdownAct,  SIGNAL('triggered()'), lambda: subRunCmd('shutdown -s -t 0 -f'))
         #self.quitAct.triggered.connect(lambda: QApplication.instance().quit())
 
     def Show(self, pos:QPoint):

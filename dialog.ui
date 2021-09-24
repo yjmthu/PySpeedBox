@@ -173,12 +173,12 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QRadioButton" name="rBtnScript">
+             <widget class="QRadioButton" name="rBtnCmd">
               <property name="toolTip">
                <string>来自脚本的输出结果</string>
               </property>
               <property name="text">
-               <string>脚本</string>
+               <string>命令</string>
               </property>
              </widget>
             </item>
@@ -991,102 +991,6 @@ background-color: rgb(0, 0, 0);</string>
         <number>9</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox_14">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>58</height>
-          </size>
-         </property>
-         <property name="title">
-          <string>壁纸文件夹更名</string>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_22">
-          <item>
-           <widget class="QLabel" name="label_12">
-            <property name="text">
-             <string>标准名称</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="cBxstandardName">
-            <property name="cursor">
-             <cursorShape>OpenHandCursor</cursorShape>
-            </property>
-            <item>
-             <property name="text">
-              <string>最新壁纸</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>最热壁纸</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>自然壁纸</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>动漫壁纸</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>极简壁纸</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>随机壁纸</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>必应壁纸</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>桌面壁纸</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_13">
-            <property name="text">
-             <string>新名称</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="lineNewName">
-            <property name="text">
-             <string>最新壁纸</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pBtnCustomName">
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="toolTip">
-             <string>*更改并保存</string>
-            </property>
-            <property name="text">
-             <string>更改</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
         <widget class="QGroupBox" name="groupBox_6">
          <property name="title">
           <string>资源目录</string>
@@ -1118,92 +1022,6 @@ background-color: rgb(0, 0, 0);</string>
              </widget>
             </item>
            </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_01">
-            <item>
-             <widget class="QLabel" name="label_11">
-              <property name="text">
-               <string>壁纸下载目录</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="lineBingPath">
-              <property name="readOnly">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="toolButton_2">
-              <property name="toolTip">
-               <string>选择文件夹</string>
-              </property>
-              <property name="text">
-               <string>=</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_11">
-              <property name="toolTip">
-               <string>*修改并保存</string>
-              </property>
-              <property name="text">
-               <string>修改</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pBtnOpenPicturePath">
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="toolTip">
-               <string>*打开并保存</string>
-              </property>
-              <property name="text">
-               <string>打开</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_15">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>70</height>
-          </size>
-         </property>
-         <property name="title">
-          <string>自定义命令</string>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_23">
-          <item>
-           <widget class="QLineEdit" name="linePathToOpen">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton">
-            <property name="text">
-             <string>保存</string>
-            </property>
-           </widget>
           </item>
          </layout>
         </widget>
@@ -1407,7 +1225,7 @@ background-color: rgb(0, 0, 0);</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pBtnApply_2">
+             <widget class="QPushButton" name="pBtnApplySysRightMenu">
               <property name="cursor">
                <cursorShape>PointingHandCursor</cursorShape>
               </property>

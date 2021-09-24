@@ -1,4 +1,4 @@
-import os, time, sys, platform
+import os, time, sys, subprocess
 from random import randint
 from ctypes import pointer, sizeof, windll, wintypes, Structure, c_char
 
@@ -17,7 +17,11 @@ MOUSEEVENTF_MOVE = 0x0001
 GENERIC_READ = 0x80000000
 FILE_SHARE_READ = 0x00000001
 OPEN_EXISTING = 3
-FILE_ATTRIBUTE_NORMAL = 0x00000080  
+FILE_ATTRIBUTE_NORMAL = 0x00000080
+SW_SHOW = 5
+SW_HIDE = 0
+SW_SHOWNORMAL = 1
+SW_NORMAL = 1
 
 MSG_APPBAR_MSGID = 2731
 ABM_NEW = 0
@@ -44,6 +48,9 @@ def get_dir_path() -> str:
 
 def get_scr_path() -> str:
     return os.path.abspath(sys.argv[0])
+
+def subRunCmd(cmd):
+    subprocess.run(cmd, shell=True, stdin=-1, stdout=-1, stderr=-1)
 
 def isOnline(box, wait):
     flag = wintypes.DWORD()

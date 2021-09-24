@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>308</width>
-    <height>183</height>
+    <width>323</width>
+    <height>222</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -119,6 +119,25 @@ border-image: url(:/icons/ya.ico);
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>保存位置</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QLineEdit" name="lineBingPaperDir"/>
+      </item>
+      <item>
+       <widget class="QToolButton" name="tBtnChooseFolder">
+        <property name="text">
+         <string>=</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <widget class="QCheckBox" name="checkBox">
@@ -164,7 +183,7 @@ border-image: url(:/icons/ya.ico);
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="pBtnCancel">
        <property name="text">
         <string>取消</string>
        </property>
@@ -184,7 +203,7 @@ border-image: url(:/icons/ya.ico);
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="pBtnSave">
        <property name="toolTip">
         <string>*保存</string>
        </property>
@@ -207,7 +226,7 @@ border-image: url(:/icons/ya.ico);
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="pBtnApply">
        <property name="toolTip">
         <string>应用但不保存</string>
        </property>
@@ -236,7 +255,7 @@ border-image: url(:/icons/ya.ico);
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton</sender>
+   <sender>pBtnCancel</sender>
    <signal>clicked()</signal>
    <receiver>BingSetting</receiver>
    <slot>close()</slot>
