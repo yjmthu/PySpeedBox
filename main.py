@@ -3,10 +3,14 @@ import os, sys
 from ctypes import wintypes, windll
 
 from PySide6.QtWidgets import QApplication
+import PySide6
 
 from funcbox import *
 from varbox import VarBox
 
+dirname = os.path.dirname(PySide6.__file__)
+plugin_path = os.path.join(dirname, 'plugins', 'platforms')
+os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
 
 if __name__ == "__main__":
     HMutex: wintypes.HANDLE = windll.kernel32.CreateMutexW(None, False, "__PySpeedBox__")

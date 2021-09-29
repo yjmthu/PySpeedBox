@@ -1,9 +1,7 @@
 import os
 from pathlib import Path
-import pathlib
-from PySide6.QtGui import QImage, QPixmap
 
-from PySide6.QtWidgets import QDialog, QHBoxLayout, QWidget
+from PySide6.QtWidgets import QHBoxLayout, QWidget
 from PySide6.QtCore import QSize, Qt, QFile
 from PySide6.QtUiTools import QUiLoader
 

@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 from PySide6.QtWidgets import QButtonGroup, QComboBox, QHBoxLayout, QPushButton, QSlider
-from PySide6.QtCore import QEvent, QFile, QObject, QSize, Qt, QSettings
+from PySide6.QtCore import QEvent, QFile, QObject, QSize, QUrl, Qt, QSettings
 from PySide6.QtGui import QMouseEvent, QShowEvent, QIcon
 from PySide6.QtUiTools import QUiLoader
 
@@ -184,6 +184,7 @@ class Dialog(SpeedWidget):
         IniWrite.setValue("bingPaperDir", self.box.bingPaperDir)
         IniWrite.endGroup()
         self.jobTip.showTip("保存成功！")
+
     
     # def applyBing(self):
     #     self.box.bingDateAsName = 0

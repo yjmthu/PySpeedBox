@@ -1,11 +1,12 @@
-
 from funcbox import *
-import os
+import os, json
+from urllib import request, parse
+import hashlib
 from pathlib import Path
 from ctypes import pointer, wintypes, windll
 
-from PySide6.QtCore import QEvent, QFile, QObject, QSize, Qt
-from PySide6.QtGui import QImage, QKeyEvent, QPixmap, QShowEvent, QTextCursor
+from PySide6.QtCore import QEvent, QFile, QObject, QSize, Qt, Signal
+from PySide6.QtGui import QKeyEvent,  QShowEvent, QTextCursor
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QHBoxLayout
 
@@ -14,11 +15,21 @@ from speedwidget import SpeedWidget
 
 
 class Fanyer(SpeedWidget):
+    finished = Signal(bool, str)
+
     def __init__(self, box, parent=None) -> None:
         super().__init__(parent=parent)
         self.box = box
+        self._from = "zh"
+        self._to = "en"
+        self.values = {
+            'appid': self.box.fanyerAppId,
+            'salt': "1435660288",
+            'tts': 1
+        }
         self.initUi()
         self.initSpeedBox(self.ui, self.showMinimized, self.close, 12)
+        self.initConnections()
     
     def initUi(self):
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.Dialog)
@@ -38,6 +49,10 @@ class Fanyer(SpeedWidget):
         self.layout().addChildWidget(self.ui)
         # self.ui.Icon.setPixmap(QPixmap.fromImage(QImage("./icons/ya.ico").scaled(20, 20, Qt.KeepAspectRatio)))
     
+    def initConnections(self):
+        self.ui.pBtnEnToZh.clicked.connect(self.toZh)
+        self.ui.pBtnZhToEn.clicked.connect(self.toEn)
+
     def showEvent(self, arg__1: QShowEvent) -> None:
 
         rt = wintypes.RECT()
@@ -76,3 +91,30 @@ class Fanyer(SpeedWidget):
                     event.accept()
                     return True
         return super().eventFilter(arg__1, arg__2)
+    
+    def handleData(self):
+        API = "http://api.fanyi.baidu.com/api/trans/vip/translate?"
+        self.values['q'] = self.ui.TextFrom.toPlainText()
+        self.values['from'] = self._from
+        self.values['to'] = self._to
+        self.values['sign'] = hashlib.md5((self.values['appid'] + self.values['q'] + self.values['salt'] + self.box.fanyerPassWord).encode('utf-8')).hexdigest()
+        print(API+parse.urlencode(self.values))
+        response = request.urlopen(request.Request(API+parse.urlencode(self.values), method='GET'))
+        js = json.loads(response.read())
+        print(js)
+        if 'trans_result' in js:
+            self.ui.TextTo.clear()
+            for trans_result in js['trans_result']:
+                self.ui.TextTo.appendPlainText(trans_result['dst'])
+    
+    def toEn(self):
+        self._from = 'zh'
+        self._to = 'en'
+        self.handleData()
+    
+    def toZh(self):
+        self._to = 'zh'
+        self._from = 'en'
+        self.handleData()
+
+        

@@ -148,7 +148,7 @@ QPushButton:hover {
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>icons/copy.ico</normaloff>icons/copy.ico</iconset>
+         <normaloff>icons/drip_copy.ico</normaloff>icons/drip_copy.ico</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -169,30 +169,13 @@ QPushButton:hover {
       </spacer>
      </item>
      <item>
-      <widget class="QRadioButton" name="ENTOZH">
-       <property name="minimumSize">
-        <size>
-         <width>37</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>37</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::ClickFocus</enum>
-       </property>
-       <property name="toolTip">
-        <string>翻译为中文</string>
-       </property>
+      <widget class="QPushButton" name="pBtnEnToZh">
        <property name="text">
-        <string>zh</string>
+        <string/>
        </property>
-       <property name="checked">
-        <bool>false</bool>
+       <property name="icon">
+        <iconset>
+         <normaloff>icons/empty_zh.ico</normaloff>icons/empty_zh.ico</iconset>
        </property>
       </widget>
      </item>
@@ -210,30 +193,13 @@ QPushButton:hover {
       </spacer>
      </item>
      <item>
-      <widget class="QRadioButton" name="ZHTOEN">
-       <property name="minimumSize">
-        <size>
-         <width>37</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>37</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::ClickFocus</enum>
-       </property>
-       <property name="toolTip">
-        <string>翻译为英文</string>
-       </property>
+      <widget class="QPushButton" name="pBtnZhToEn">
        <property name="text">
-        <string>en</string>
+        <string/>
        </property>
-       <property name="checked">
-        <bool>true</bool>
+       <property name="icon">
+        <iconset>
+         <normaloff>icons/black_en.ico</normaloff>icons/black_en.ico</iconset>
        </property>
       </widget>
      </item>
@@ -251,18 +217,13 @@ QPushButton:hover {
       </spacer>
      </item>
      <item>
-      <widget class="QCheckBox" name="isFix">
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::ClickFocus</enum>
-       </property>
-       <property name="toolTip">
-        <string>*不自动隐藏窗口</string>
-       </property>
+      <widget class="QPushButton" name="pBtnPin">
        <property name="text">
-        <string>fix</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>icons/drip_pin.ico</normaloff>icons/drip_pin.ico</iconset>
        </property>
       </widget>
      </item>

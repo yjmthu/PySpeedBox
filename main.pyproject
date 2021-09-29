@@ -1,3 +1,3 @@
 {
-    "files": ["bingsetting.ui","form.py","form.ui","main.py","gmpoperatetip.py","funcbox.py","menu.py","dialog.py","dialog.ui","formsetting.ui","speedwidget.py","fanyer.ui","translater.ui","blankform.py","icons/blue_purple_arrow.png","icons/close.png","icons/copy.ico","icons/minimize.png","icons/speedbox.ico","icons/ya.ico"]
+    "files": ["form.ui","icons/drip_blue_pin.ico","icons/minimize.png","bingsetting.ui","gmpoperatetip.py","fanyer.ui","icons/ya.ico","menu.py","icons/copy.ico","dialog.py","icons/close.png","dialog.ui","icons/drip_copy.ico","icons/drip_pin.ico","blankform.py","main.py","formsetting.ui","funcbox.py","icons/blue_purple_arrow.png","icons/black_zh.ico","form.py","speedwidget.py","icons/black_en.ico","icons/empty_zh.ico","icons/speedbox.ico","translater.ui","icons/drip_trash.ico","icons/empty_en.ico","qss/bing_style.qss","qss/dialog_style.qss","qss/fanyer_style.qss","qss/menu_style.qss"]
 }
